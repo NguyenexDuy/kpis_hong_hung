@@ -1,8 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hong_hung_application/pages/dyary_page.dart';
-import 'package:hong_hung_application/pages/kpis_group_page.dart';
-import 'package:hong_hung_application/pages/kpis_person_page.dart';
+import 'package:hong_hung_application/pages/kpi_group/enter_kpi.dart';
+import 'package:hong_hung_application/pages/kpi_group/result_kpi.dart';
+import 'package:hong_hung_application/pages/kpi_person/self_assessment.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,22 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-  _loadPage(int index) {
-    switch (index) {
-      case 0:
-        return HomePage();
-      case 2:
-        return KpisGroupPage();
-      case 3:
-        return KpisPersonPage();
-      case 4:
-        return DyaryPage();
-      default:
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,37 +60,80 @@ class _HomePageState extends State<HomePage> {
                   leading: const Icon(Icons.message),
                   title: const Text('Trang chủ'),
                   onTap: () {
-                    Navigator.pop(context);
-                    _selectedIndex = 0;
-                    setState(() {});
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
                   },
                 ),
-                ListTile(
+                ExpansionTile(
                   leading: const Icon(Icons.group),
                   title: const Text('KPIs tập thể'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    _selectedIndex = 1;
-                    setState(() {});
-                  },
+                  children: <Widget>[
+                    const ListTile(title: Text('Quản lý chỉ số KPIs')),
+                    ExpansionTile(
+                      title: const Text('Quản lý số liệu KPIs phòng'),
+                      children: [
+                        ListTile(
+                          leading: const Icon(
+                            Icons.circle,
+                            size: 10,
+                          ),
+                          title: const Text('Nhập số liệu KPI cho Khoa/Phòng'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const EnterKpi(),
+                                ));
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(
+                            Icons.circle,
+                            size: 10,
+                          ),
+                          title: const Text('Kết quả KPI Khoa/Phòng phụ trách'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ResultKpi(),
+                                ));
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                ListTile(
+                ExpansionTile(
                   leading: const Icon(Icons.person),
                   title: const Text('KPIs cá nhân'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    _selectedIndex = 2;
-                    setState(() {});
-                  },
+                  children: <Widget>[
+                    ListTile(
+                      title: const Text('Tự đánh giá bản thân'),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SelfAssessment(),
+                            ));
+                      },
+                    ),
+                    ListTile(title: Text('Kết quả tự đánh giá')),
+                    ListTile(title: Text('Đánh giá các cấp trên')),
+                    ListTile(title: Text('Các thành viên đánh giá lẫn nhau')),
+                  ],
                 ),
-                ListTile(
+                ExpansionTile(
                   leading: const Icon(Icons.my_library_books_outlined),
                   title: const Text('Nhật ký KPIs cá nhân'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    _selectedIndex = 3;
-                    setState(() {});
-                  },
+                  children: const <Widget>[
+                    ListTile(title: Text('Kết quả tự đánh giá')),
+                    ListTile(title: Text('Kết quả đánh giá cấp quản lý')),
+                    ListTile(title: Text('Kết quả đánh giá cấp nhân viên')),
+                    ListTile(title: Text('Xem cấp trên đánh giá')),
+                  ],
                 ),
                 ListTile(
                   leading: const Icon(Icons.logout),
@@ -118,7 +145,9 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: _loadPage(_selectedIndex),
+      body: Center(
+        child: Text("This is home page"),
+      ),
     );
   }
 }
