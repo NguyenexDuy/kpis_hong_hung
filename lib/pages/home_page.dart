@@ -12,6 +12,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List image = [
+    'assets/background/bvhh1.png',
+    'assets/background/bvhh5.png',
+    'assets/background/bvhh2.png',
+    'assets/background/bvhh4.png',
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,11 +52,32 @@ class _HomePageState extends State<HomePage> {
                       size: 40,
                     ),
                   ),
-                  Text("Nguyễn Duy"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Nguyễn Duy",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  Text(
+                    "Nguyễn Duy",
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.white,
+                    ),
+                  ),
                 ],
               ),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
+                gradient: LinearGradient(
+                  colors: [
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.secondary,
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
               ),
             ),
             Column(
@@ -145,8 +172,42 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Center(
-        child: Text("This is home page"),
+      // body: ListView.builder(
+      //   itemCount: image.length,
+      //   itemBuilder: (context, index) {
+      //     return Image.asset(image[index]);
+      //   },
+      // ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Container(
+          height: 200,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.secondary,
+                spreadRadius: 5,
+                blurRadius: 30,
+                offset: Offset(-6, -6), // changes position of shadow
+              ),
+              BoxShadow(
+                color: Theme.of(context).colorScheme.primary,
+                spreadRadius: 5,
+                blurRadius: 30,
+                offset: Offset(6, 6), // changes position of shadow
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.asset(
+              "assets/background/bvhh1.png",
+              fit: BoxFit.cover, // Điều chỉnh để ảnh vừa với container
+            ),
+          ),
+        ),
       ),
     );
   }
