@@ -1,5 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:hong_hung_application/pages/dyary_page.dart';
+import 'package:hong_hung_application/api/api_repo.dart';
+import 'package:hong_hung_application/models/user.dart';
+import 'package:hong_hung_application/pages/dyary_person/result_assessment_manager.dart';
+import 'package:hong_hung_application/pages/dyary_person/result_assessment_staff.dart';
+import 'package:hong_hung_application/pages/dyary_person/result_self_assessment_dyary.dart';
+import 'package:hong_hung_application/pages/dyary_person/see_superiors_reviews.dart';
 import 'package:hong_hung_application/pages/kpi_group/enter_kpi.dart';
 import 'package:hong_hung_application/pages/kpi_group/result_kpi.dart';
 import 'package:hong_hung_application/pages/kpi_person/self_assessment.dart';
@@ -18,6 +25,27 @@ class _HomePageState extends State<HomePage> {
     'assets/background/bvhh2.png',
     'assets/background/bvhh4.png',
   ];
+  User? user;
+  String? fullName;
+  String? role;
+  Future<void>? future;
+
+  Future<void> getInforUser() async {
+    log("Dang vao ham lay thong tin user");
+    user = await APIRepository().getInformation();
+    setState(() {
+      fullName = user!.fullname;
+      role = user!.role[0].roleName;
+    });
+    log("da lay xong ");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    future = getInforUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,138 +67,212 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       drawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(
-              child: Column(
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.blue,
-                    radius: 30,
-                    child: Icon(
-                      Icons.person,
-                      size: 40,
+        child: FutureBuilder(
+            future: future,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return const Center(child: Text("Có lỗi xảy ra"));
+              } else {
+                // Kiểm tra nếu fullName và role vẫn là null
+                if (fullName == null || role == null) {
+                  return const Center(
+                      child: Text("Không thể tải thông tin người dùng"));
+                }
+                return ListView(
+                  children: [
+                    DrawerHeader(
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.blue,
+                            radius: 30,
+                            child: Icon(
+                              Icons.person,
+                              size: 40,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            fullName!,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          Text(
+                            role!,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Theme.of(context).colorScheme.primary,
+                            Theme.of(context).colorScheme.secondary,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "Nguyễn Duy",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                  Text(
-                    "Nguyễn Duy",
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Theme.of(context).colorScheme.primary,
-                    Theme.of(context).colorScheme.secondary,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ListTile(
-                  leading: const Icon(Icons.message),
-                  title: const Text('Trang chủ'),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
-                    );
-                  },
-                ),
-                ExpansionTile(
-                  leading: const Icon(Icons.group),
-                  title: const Text('KPIs tập thể'),
-                  children: <Widget>[
-                    const ListTile(title: Text('Quản lý chỉ số KPIs')),
-                    ExpansionTile(
-                      title: const Text('Quản lý số liệu KPIs phòng'),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ListTile(
-                          leading: const Icon(
-                            Icons.circle,
-                            size: 10,
-                          ),
-                          title: const Text('Nhập số liệu KPI cho Khoa/Phòng'),
+                          leading: const Icon(Icons.message),
+                          title: const Text('Trang chủ'),
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const EnterKpi(),
-                                ));
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomePage()),
+                            );
                           },
+                        ),
+                        ExpansionTile(
+                          leading: const Icon(Icons.group),
+                          title: const Text('KPIs tập thể'),
+                          children: <Widget>[
+                            const ListTile(title: Text('Quản lý chỉ số KPIs')),
+                            ExpansionTile(
+                              title: const Text('Quản lý số liệu KPIs phòng'),
+                              children: [
+                                ListTile(
+                                  leading: const Icon(
+                                    Icons.circle,
+                                    size: 10,
+                                  ),
+                                  title: const Text(
+                                      'Nhập số liệu KPI cho Khoa/Phòng'),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const EnterKpi(),
+                                        ));
+                                  },
+                                ),
+                                ListTile(
+                                  leading: const Icon(
+                                    Icons.circle,
+                                    size: 10,
+                                  ),
+                                  title: const Text(
+                                      'Kết quả KPI Khoa/Phòng phụ trách'),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ResultKpi(),
+                                        ));
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        ExpansionTile(
+                          leading: const Icon(Icons.person),
+                          title: const Text('KPIs cá nhân'),
+                          children: <Widget>[
+                            ListTile(
+                              title: const Text('Tự đánh giá bản thân'),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SelfAssessment(),
+                                    ));
+                              },
+                            ),
+                            ListTile(
+                              title: Text('Kết quả tự đánh giá'),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SelfAssessment(),
+                                    ));
+                              },
+                            ),
+                            ListTile(title: Text('Đánh giá các cấp trên')),
+                            ListTile(
+                                title:
+                                    Text('Các thành viên đánh giá lẫn nhau')),
+                          ],
+                        ),
+                        ExpansionTile(
+                          leading: const Icon(Icons.my_library_books_outlined),
+                          title: const Text('Nhật ký KPIs cá nhân'),
+                          children: <Widget>[
+                            ListTile(
+                              title: const Text('Kết quả tự đánh giá'),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ResultselfassessmentDyary(),
+                                    ));
+                              },
+                            ),
+                            ListTile(
+                              title: const Text('Kết quả đánh giá cấp quản lý'),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ResultAssessmentManager(),
+                                    ));
+                              },
+                            ),
+                            ListTile(
+                              title:
+                                  const Text('Kết quả đánh giá cấp nhân viên'),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ResultAssessmentStaff(),
+                                    ));
+                              },
+                            ),
+                            ListTile(
+                              title: const Text('Xem cấp trên đánh giá'),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SeeSuperiorsReviews(),
+                                    ));
+                              },
+                            ),
+                          ],
                         ),
                         ListTile(
-                          leading: const Icon(
-                            Icons.circle,
-                            size: 10,
-                          ),
-                          title: const Text('Kết quả KPI Khoa/Phòng phụ trách'),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ResultKpi(),
-                                ));
-                          },
+                          leading: const Icon(Icons.logout),
+                          title: const Text('Đăng xuất'),
+                          onTap: () {},
                         ),
                       ],
-                    ),
+                    )
                   ],
-                ),
-                ExpansionTile(
-                  leading: const Icon(Icons.person),
-                  title: const Text('KPIs cá nhân'),
-                  children: <Widget>[
-                    ListTile(
-                      title: const Text('Tự đánh giá bản thân'),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SelfAssessment(),
-                            ));
-                      },
-                    ),
-                    ListTile(title: Text('Kết quả tự đánh giá')),
-                    ListTile(title: Text('Đánh giá các cấp trên')),
-                    ListTile(title: Text('Các thành viên đánh giá lẫn nhau')),
-                  ],
-                ),
-                ExpansionTile(
-                  leading: const Icon(Icons.my_library_books_outlined),
-                  title: const Text('Nhật ký KPIs cá nhân'),
-                  children: const <Widget>[
-                    ListTile(title: Text('Kết quả tự đánh giá')),
-                    ListTile(title: Text('Kết quả đánh giá cấp quản lý')),
-                    ListTile(title: Text('Kết quả đánh giá cấp nhân viên')),
-                    ListTile(title: Text('Xem cấp trên đánh giá')),
-                  ],
-                ),
-                ListTile(
-                  leading: const Icon(Icons.logout),
-                  title: const Text('Đăng xuất'),
-                  onTap: () {},
-                ),
-              ],
-            )
-          ],
-        ),
+                );
+              }
+            }),
       ),
       // body: ListView.builder(
       //   itemCount: image.length,

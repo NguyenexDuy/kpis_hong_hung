@@ -4,6 +4,7 @@ class SecurityStorage {
   static AndroidOptions _getOptions() =>
       const AndroidOptions(encryptedSharedPreferences: true);
   static final storage = FlutterSecureStorage(aOptions: _getOptions());
+
   static clearToken() async {
     await storage.delete(key: "token");
   }
