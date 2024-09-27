@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:hong_hung_application/const.dart';
 import 'package:hong_hung_application/widgets/dropdown_button_discipline.dart';
 import 'package:hong_hung_application/widgets/dropdown_button_month.dart';
 
@@ -78,7 +75,7 @@ class SelfAssessment extends StatelessWidget {
                           color: Colors.grey[300],
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        child: Column(
+                        child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text("Năm đánh giá"),
@@ -91,9 +88,9 @@ class SelfAssessment extends StatelessWidget {
                 ],
               ),
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(color: Colors.grey[200]),
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -108,9 +105,9 @@ class SelfAssessment extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(color: Colors.grey[200]),
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -127,7 +124,7 @@ class SelfAssessment extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(color: Colors.grey[200]),
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -142,9 +139,9 @@ class SelfAssessment extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(color: Colors.grey[200]),
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
