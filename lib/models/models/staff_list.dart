@@ -1,4 +1,4 @@
-import 'package:hong_hung_application/models/user.dart';
+import 'package:hong_hung_application/models/models/user.dart';
 
 class StaffList {
   int id;

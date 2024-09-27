@@ -1,11 +1,12 @@
+//kết quả đánh giá cấp quản lý
 class RsMemberAsManager {
   int id;
   String staff_code;
   String manager_name;
   String rank_manager;
-  String gan_ket_tao_dong_luc_nv;
-  String chat_luong_to_chuc_phan_cong_cv;
-  String tb_gan_ket_va_phan_cong;
+  int gan_ket_tao_dong_luc_nv;
+  int chat_luong_to_chuc_phan_cong_cv;
+  double tb_gan_ket_va_phan_cong;
   String note_desc;
   String room_name;
   int month;

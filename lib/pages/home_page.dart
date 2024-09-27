@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:hong_hung_application/api/api_repo.dart';
-import 'package:hong_hung_application/models/user.dart';
+import 'package:hong_hung_application/models/models/user.dart';
 import 'package:hong_hung_application/pages/dyary_person/result_assessment_manager.dart';
 import 'package:hong_hung_application/pages/dyary_person/result_assessment_staff.dart';
 import 'package:hong_hung_application/pages/dyary_person/result_self_assessment_dyary.dart';

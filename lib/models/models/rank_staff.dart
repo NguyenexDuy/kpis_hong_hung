@@ -1,4 +1,4 @@
-import 'package:hong_hung_application/models/group_rank.dart';
+import 'package:hong_hung_application/models/models/group_rank.dart';
 
 class RankStaff {
   int id;

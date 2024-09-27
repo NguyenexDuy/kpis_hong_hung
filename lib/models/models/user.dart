@@ -1,6 +1,6 @@
-import 'package:hong_hung_application/models/rank_staff.dart';
-import 'package:hong_hung_application/models/role.dart';
-import 'package:hong_hung_application/models/room_type.dart';
+import 'package:hong_hung_application/models/models/rank_staff.dart';
+import 'package:hong_hung_application/models/models/role.dart';
+import 'package:hong_hung_application/models/models/room_type.dart';
 
 class User {
   int id;

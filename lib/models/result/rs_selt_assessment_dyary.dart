@@ -1,6 +1,5 @@
-import 'dart:convert';
-
-class ResultSeltAssessmentDyary {
+//kết quả tự đánh giá(Staff)
+class ResultSeltAssessmentDyary_MD {
   int id;
   String staff_code;
   String name;
@@ -19,7 +18,7 @@ class ResultSeltAssessmentDyary {
   String created_by;
   String time_submit;
 
-  ResultSeltAssessmentDyary({
+  ResultSeltAssessmentDyary_MD({
     required this.id,
     required this.staff_code,
     required this.name,
@@ -39,8 +38,8 @@ class ResultSeltAssessmentDyary {
     required this.time_submit,
   });
 
-  factory ResultSeltAssessmentDyary.fromJson(Map<String, dynamic> json) =>
-      ResultSeltAssessmentDyary(
+  factory ResultSeltAssessmentDyary_MD.fromJson(Map<String, dynamic> json) =>
+      ResultSeltAssessmentDyary_MD(
         id: json['id'],
         staff_code: json['staff_code'],
         name: json['name'],
