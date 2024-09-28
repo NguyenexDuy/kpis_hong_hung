@@ -196,21 +196,26 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                             ListTile(
-                              title: Text('Kết quả tự đánh giá'),
+                              title: const Text('Kết quả tự đánh giá'),
                               onTap: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => SelfAssessment(),
+                                      builder: (context) =>
+                                          const SelfAssessment(),
                                     ));
                               },
                             ),
-                            ListTile(title: Text('Đánh giá các cấp trên')),
-                            ListTile(
+                            const ListTile(
+                                title: Text('Đánh giá các cấp trên')),
+                            const ListTile(
                                 title:
                                     Text('Các thành viên đánh giá lẫn nhau')),
                           ],
                         ),
+
+                        //*******************NHẬT KÝ KPIS CÁ NHÂN*****************************
+                        //******************************************************************** */
                         ExpansionTile(
                           leading: const Icon(Icons.my_library_books_outlined),
                           title: const Text('Nhật ký KPIs cá nhân'),
@@ -226,6 +231,33 @@ class _HomePageState extends State<HomePage> {
                                     ));
                               },
                             ),
+                            role == "Manager"
+                                ? ListTile(
+                                    title: const Text(
+                                        'Kết quả nhân viên tự đánh giá'),
+                                    onTap: () {},
+                                  )
+                                : const SizedBox(),
+                            role == "Manager"
+                                ? ListTile(
+                                    title:
+                                        const Text('Kết quả đánh giá lãnh đạo'),
+                                    onTap: () {},
+                                  )
+                                : const SizedBox(),
+                            role == "Manager"
+                                ? ListTile(
+                                    title: const Text('Kết quả KPI cá nhân'),
+                                    onTap: () {},
+                                  )
+                                : const SizedBox(),
+                            role == "Manager"
+                                ? ListTile(
+                                    title: const Text(
+                                        'Kết quả quản lý đánh giá nhân viên'),
+                                    onTap: () {},
+                                  )
+                                : const SizedBox(),
                             ListTile(
                               title: const Text('Kết quả đánh giá cấp quản lý'),
                               onTap: () {
@@ -249,17 +281,30 @@ class _HomePageState extends State<HomePage> {
                                     ));
                               },
                             ),
+                            role == "Manager"
+                                ? ListTile(
+                                    title: const Text(
+                                        'Ý kiến nhân viên đánh giá lẫn nhau'),
+                                    onTap: () {},
+                                  )
+                                : const SizedBox(),
                             ListTile(
-                              title: const Text('Xem cấp trên đánh giá'),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SeeSuperiorsReviews(),
-                                    ));
-                              },
+                              title: const Text('Xem BGĐ đánh giá'),
+                              onTap: () {},
                             ),
+                            role == "Manager"
+                                ? ListTile(
+                                    title: const Text('Xem cấp trên đánh giá'),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SeeSuperiorsReviews(),
+                                          ));
+                                    },
+                                  )
+                                : const SizedBox(),
                           ],
                         ),
                         ListTile(

@@ -2,6 +2,8 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hong_hung_application/pages/log_in_page.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
 void main() {
   runApp(DevicePreview(
@@ -32,6 +34,11 @@ class MyApp extends StatelessWidget {
               surface: Color(0xFFFFFFFF),
               onSurface: Color(0xFF000000))),
       home: const LogIn(),
+      localizationsDelegates: const [
+        GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        MonthYearPickerLocalizations.delegate,
+      ],
     );
   }
 }
