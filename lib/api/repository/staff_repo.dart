@@ -4,10 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:hong_hung_application/api/api.dart';
 import 'package:hong_hung_application/models/result/rs_manager_as_yourself.dart';
 import 'package:hong_hung_application/models/result/rs_member_assess.dart';
+import 'package:hong_hung_application/models/result/rs_personal_kpi.dart';
 import 'package:hong_hung_application/models/result/rs_selt_assessment_dyary.dart';
 import 'package:hong_hung_application/storage/security_storage.dart';
 
-class GetSelfAsStaffRepo {
+class StaffRepo {
   API api = API();
 
 //kết quả tự đánh giá
@@ -19,6 +20,68 @@ class GetSelfAsStaffRepo {
     try {
       Response response = await api.sendRequest.get("/staff/getSeflAssessStaff",
           options: Options(headers: header(token)));
+
+      if (response.statusCode == 200) {
+        var data = response.data["result"];
+        if (data is List) {
+          // Kiểm tra kiểu dữ liệu
+          mList = data
+              .map((e) => ResultSeltAssessmentDyary_MD.fromJson(e))
+              .toList();
+        }
+        log("da lay xong");
+      }
+      return mList;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+//kết quả KPI cá nhân
+  Future<List<RsPersonalKpi>> getResultPersonalKPI(int month, int year) async {
+    log("Dang thuc hien lay ket qua KPI ca nhan");
+    String token = await SecurityStorage.getToken();
+    List<RsPersonalKpi> mlist = [];
+    try {
+      Response response = await api.sendRequest.get(
+          "/staff/getResultPersonalKPI",
+          options: Options(headers: header(token)),
+          queryParameters: {
+            'month': month,
+            'year': year,
+          });
+
+      if (response.statusCode == 200) {
+        var data = response.data["result"];
+        // log("Du lieu tra ve: $data");
+        if (data is List) {
+          // Kiểm tra kiểu dữ liệu
+          mlist = data.map((e) => RsPersonalKpi.fromJson(e)).toList();
+        }
+        log("da lay xong");
+      }
+      return mlist;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  //Kết quả nhân viên tự đánh giá
+  Future<List<ResultSeltAssessmentDyary_MD>> getResultSelfAssessStaff(
+      int month, int year) async {
+    log("Dang thuc hien lay ket qua nhan vien tu danh gia");
+    String token = await SecurityStorage.getToken();
+    List<ResultSeltAssessmentDyary_MD> mList = [];
+    try {
+      Response response = await api.sendRequest.get(
+          "/staff/getResultSelfAssessStaff",
+          options: Options(headers: header(token)),
+          queryParameters: {
+            "month": month,
+            "year": year,
+          });
 
       if (response.statusCode == 200) {
         var data = response.data["result"];

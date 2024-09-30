@@ -1,4 +1,4 @@
-//kết quả tự đánh giá(Staff)
+//kết quả tự đánh giá(Staff, manager)
 class ResultSeltAssessmentDyary_MD {
   int id;
   String staff_code;
@@ -7,10 +7,10 @@ class ResultSeltAssessmentDyary_MD {
   String group_rank;
   int month;
   int year;
-  int ky_luat_va_thuong;
-  int muc_do_phoi_hop;
-  int chat_luong_chuyen_mon;
-  int diem_muc_do_hoc_tap_pt;
+  int? ky_luat_va_thuong;
+  int? muc_do_phoi_hop;
+  int? chat_luong_chuyen_mon;
+  int? diem_muc_do_hoc_tap_pt;
   String note;
   String room_name;
   String room_symbol;
@@ -26,10 +26,10 @@ class ResultSeltAssessmentDyary_MD {
     required this.group_rank,
     required this.month,
     required this.year,
-    required this.ky_luat_va_thuong,
-    required this.muc_do_phoi_hop,
-    required this.chat_luong_chuyen_mon,
-    required this.diem_muc_do_hoc_tap_pt,
+    this.ky_luat_va_thuong,
+    this.muc_do_phoi_hop,
+    this.chat_luong_chuyen_mon,
+    this.diem_muc_do_hoc_tap_pt,
     required this.note,
     required this.room_name,
     required this.room_symbol,

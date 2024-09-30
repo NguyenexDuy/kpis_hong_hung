@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hong_hung_application/api/repository/manager_repo.dart';
 import 'package:hong_hung_application/api/repository/staff_repo.dart';
 import 'package:hong_hung_application/models/result/rs_selt_assessment_dyary.dart';
 
 class ResultselfassessmentDyary extends StatefulWidget {
-  const ResultselfassessmentDyary({super.key});
+  ResultselfassessmentDyary({super.key, required this.role});
+  String role;
 
   @override
   State<ResultselfassessmentDyary> createState() =>
@@ -15,7 +17,10 @@ class _ResultselfassessmentDyaryState extends State<ResultselfassessmentDyary> {
   @override
   void initState() {
     super.initState();
-    futureResultSelfAssessment = GetSelfAsStaffRepo().getSelfAsStaff();
+
+    futureResultSelfAssessment = widget.role == "User"
+        ? StaffRepo().getSelfAsStaff()
+        : ManagerRepo().getSelfAsManager(2, 2024);
   }
 
   @override

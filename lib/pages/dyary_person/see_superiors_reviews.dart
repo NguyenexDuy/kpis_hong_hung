@@ -15,7 +15,7 @@ class _SeeSuperiorsReviewsState extends State<SeeSuperiorsReviews> {
   @override
   void initState() {
     super.initState();
-    mlist = GetSelfAsStaffRepo().getResultManagerAsYourself();
+    mlist = StaffRepo().getResultManagerAsYourself();
   }
 
   @override

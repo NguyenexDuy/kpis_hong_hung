@@ -37,12 +37,10 @@ class _ResultAssessmentStaffState extends State<ResultAssessmentStaff>
         _selected = selected;
         _selectedMonth = _selected!.month;
         _selectedYear = _selected!.year;
-        mlist = GetSelfAsStaffRepo()
-            .getMemberAssess(_selectedMonth!, _selectedYear!);
+        mlist = StaffRepo().getMemberAssess(_selectedMonth!, _selectedYear!);
       });
       setState(() {
-        mlist = GetSelfAsStaffRepo()
-            .getMemberAssess(_selectedMonth!, _selectedYear!);
+        mlist = StaffRepo().getMemberAssess(_selectedMonth!, _selectedYear!);
       });
     }
     log(_selectedMonth.toString());
