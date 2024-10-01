@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:hong_hung_application/api/api_repo.dart';
+import 'package:hong_hung_application/const.dart';
 import 'package:hong_hung_application/pages/home_page.dart';
 
 class LogIn extends StatefulWidget {
@@ -72,7 +73,7 @@ class _LogInState extends State<LogIn> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/background/logo-hh-co-chu_fix.png",
+                      logoLogin,
                       width: 100,
                     ),
                     Padding(
@@ -92,6 +93,7 @@ class _LogInState extends State<LogIn> {
                               },
                               controller: userNameController,
                               decoration: InputDecoration(
+                                hintStyle: const TextStyle(color: Colors.grey),
                                 hintText: "Tài khoản",
                                 border: InputBorder.none,
                                 fillColor:
@@ -113,6 +115,7 @@ class _LogInState extends State<LogIn> {
                               },
                               controller: passWordController,
                               decoration: InputDecoration(
+                                hintStyle: const TextStyle(color: Colors.grey),
                                 hintText: "Mật khẩu",
                                 border: InputBorder.none,
                                 fillColor:
@@ -126,11 +129,22 @@ class _LogInState extends State<LogIn> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            login(context);
-                          },
-                          child: const Text("Đăng nhập")),
+                      child: SizedBox(
+                        height: 30,
+                        width: 250,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                            ),
+                            onPressed: () async {
+                              login(context);
+                            },
+                            child: const Text(
+                              "Đăng nhập",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ),
                     ),
                   ],
                 ),
@@ -148,7 +162,7 @@ class _LogInState extends State<LogIn> {
                   ),
                 ),
               )
-            : SizedBox()
+            : const SizedBox()
       ],
     ));
   }

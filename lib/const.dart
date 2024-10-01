@@ -28,3 +28,7 @@ const List<String> listHocTapvaPhatTrien = [
   "8-Nhóm B: Trực tiếp đào tạo, huấn luyện, sáng kiến, viết bài, báo cáo thuyến trình cấp khoa",
   "10-Nhóm A: Trực tiếp đào tạo, huấn luyện, sáng kiến, viết bài, báo cáo thuyết trình cấp bệnh viện",
 ];
+
+const String urlLogo = "assets/background/";
+
+const String logoLogin = "${urlLogo}logo_hong_hung.png";

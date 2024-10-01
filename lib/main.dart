@@ -10,6 +10,7 @@ void main() {
     enabled: !kReleaseMode,
     builder: (context) => const MyApp(), // Wrap your app
   ));
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
           appBarTheme: const AppBarTheme(
             color: Color(0xff1799CE),

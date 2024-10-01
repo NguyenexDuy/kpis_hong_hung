@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecurityStorage {
@@ -6,6 +8,7 @@ class SecurityStorage {
   static final storage = FlutterSecureStorage(aOptions: _getOptions());
 
   static clearToken() async {
+    log("thuc hien xoa token hien tai");
     await storage.delete(key: "token");
   }
 
