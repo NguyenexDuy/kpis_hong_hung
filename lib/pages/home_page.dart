@@ -54,12 +54,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       drawer: DrawerWidget(future: future, fullName: fullName, role: role),
-      // body: ListView.builder(
-      //   itemCount: image.length,
-      //   itemBuilder: (context, index) {
-      //     return Image.asset(image[index]);
-      //   },
-      // ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Container(
@@ -72,13 +66,13 @@ class _HomePageState extends State<HomePage> {
                 color: Theme.of(context).colorScheme.secondary,
                 spreadRadius: 5,
                 blurRadius: 30,
-                offset: Offset(-6, -6), // changes position of shadow
+                offset: const Offset(-6, -6), // changes position of shadow
               ),
               BoxShadow(
                 color: Theme.of(context).colorScheme.primary,
                 spreadRadius: 5,
                 blurRadius: 30,
-                offset: Offset(6, 6), // changes position of shadow
+                offset: const Offset(6, 6), // changes position of shadow
               ),
             ],
           ),

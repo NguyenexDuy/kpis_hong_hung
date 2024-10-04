@@ -16,6 +16,9 @@ import 'package:hong_hung_application/pages/home_page.dart';
 import 'package:hong_hung_application/pages/kpi_group/enter_kpi.dart';
 import 'package:hong_hung_application/pages/kpi_group/result_kpi.dart';
 import 'package:hong_hung_application/pages/kpi_person/self_assessment.dart';
+import 'package:hong_hung_application/pages/manager_system/room_manager_page.dart';
+import 'package:hong_hung_application/pages/manager_system/staff_manager_page.dart';
+import 'package:hong_hung_application/pages/manager_system/user_manager_page.dart';
 import 'package:hong_hung_application/storage/security_storage.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -101,6 +104,47 @@ class DrawerWidget extends StatelessWidget {
                           );
                         },
                       ),
+                      //*******************HỆ THỐNG QUẢN LÝ*****************************
+                      //******************************************************************** */
+                      ExpansionTile(
+                        leading: const Icon(Icons.group),
+                        title: const Text('Hệ Thống Quản Lý'),
+                        children: <Widget>[
+                          ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const UserManagerPage(),
+                                    ));
+                              },
+                              title: const Text('Quản lý User')),
+                          ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const StaffManagerPage(),
+                                    ));
+                              },
+                              title: const Text('Quản lý Staffs')),
+                          ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RoomManagerPage(),
+                                    ));
+                              },
+                              title: const Text('Quản lý Khoa/Phòng')),
+                        ],
+                      ),
+
+                      //*******************KPIS TẬP THỂ*****************************
+                      //******************************************************************** */
                       ExpansionTile(
                         leading: const Icon(Icons.group),
                         title: const Text('KPIs tập thể'),
@@ -143,6 +187,9 @@ class DrawerWidget extends StatelessWidget {
                           ),
                         ],
                       ),
+
+                      //***********************KPIS CÁ NHÂN*****************************
+                      //******************************************************************** */
                       ExpansionTile(
                         leading: const Icon(Icons.person),
                         title: const Text('KPIs cá nhân'),

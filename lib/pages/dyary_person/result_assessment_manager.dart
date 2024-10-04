@@ -54,7 +54,7 @@ class _ResultAssessmentManagerState extends State<ResultAssessmentManager> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Kết quả đánh giá cấp quản lý"),
+          title: const Text("Kết quả đánh giá cấp quản lý"),
         ),
         body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           TextButton(

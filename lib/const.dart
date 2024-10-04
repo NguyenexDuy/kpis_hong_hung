@@ -8,6 +8,8 @@ const List<String> myListt = [
   "5-Rất tốt và được nhận khen ngợi(100)"
 ];
 
+List<String> myList = ["CEO giám đốc", "ádfasdf", "ádfd"];
+
 const List<String> listChatLuong = [
   "0-Rất kém",
   "1",

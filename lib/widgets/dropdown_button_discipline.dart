@@ -16,7 +16,7 @@ class _DropdownButtonDisciplineState extends State<DropdownButtonDiscipline> {
   @override
   Widget build(BuildContext context) {
     return DropdownMenu(
-      initialSelection: myListt.first,
+      hintText: "abc",
       onSelected: (value) {
         setState(() {
           dropdownValue = value!;

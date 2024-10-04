@@ -26,7 +26,7 @@ class SelfAssessment extends StatelessWidget {
               ),
               TextFormField(
                 enabled: false,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'hh1008',
                 ),
               ),
@@ -39,7 +39,7 @@ class SelfAssessment extends StatelessWidget {
               ),
               TextFormField(
                 enabled: false,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Nguyễn Sơn Ngọc',
                 ),
               ),
