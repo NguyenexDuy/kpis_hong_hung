@@ -13,8 +13,10 @@ import 'package:hong_hung_application/pages/dyary_person/result_self_as_staff_pa
 import 'package:hong_hung_application/pages/dyary_person/result_self_assessment_dyary.dart';
 import 'package:hong_hung_application/pages/dyary_person/see_superiors_reviews.dart';
 import 'package:hong_hung_application/pages/home_page.dart';
-import 'package:hong_hung_application/pages/kpi_group/enter_kpi.dart';
-import 'package:hong_hung_application/pages/kpi_group/result_kpi.dart';
+import 'package:hong_hung_application/pages/kpi_group/add_kpi_room_page.dart';
+import 'package:hong_hung_application/pages/kpi_group/enter_kpi_page.dart';
+import 'package:hong_hung_application/pages/kpi_group/result_kpi_page.dart';
+import 'package:hong_hung_application/pages/kpi_group/see_kpi_room_page.dart';
 import 'package:hong_hung_application/pages/kpi_person/self_assessment.dart';
 import 'package:hong_hung_application/pages/manager_system/room_manager_page.dart';
 import 'package:hong_hung_application/pages/manager_system/staff_manager_page.dart';
@@ -149,7 +151,43 @@ class DrawerWidget extends StatelessWidget {
                         leading: const Icon(Icons.group),
                         title: const Text('KPIs tập thể'),
                         children: <Widget>[
-                          const ListTile(title: Text('Quản lý chỉ số KPIs')),
+                          ExpansionTile(
+                            title: const Text('Quản lý chỉ số KPIs'),
+                            children: [
+                              ListTile(
+                                leading: const Icon(
+                                  Icons.circle,
+                                  size: 10,
+                                ),
+                                title: const Text(
+                                    "Thêm mới chỉ số KPI các Khoa/Phòng"),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AddKpiRoomPage(),
+                                      ));
+                                },
+                              ),
+                              ListTile(
+                                leading: const Icon(
+                                  Icons.circle,
+                                  size: 10,
+                                ),
+                                title:
+                                    const Text("Xem chỉ số KPI các Khoa/Phòng"),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SeeKpiRoomPage(),
+                                      ));
+                                },
+                              )
+                            ],
+                          ),
                           ExpansionTile(
                             title: const Text('Quản lý số liệu KPIs phòng'),
                             children: [

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hong_hung_application/api/repository/admin_repo.dart';
 import 'package:hong_hung_application/models/models/user.dart';
 import 'package:hong_hung_application/pages/manager_system/edit_user_page.dart';
+import 'package:hong_hung_application/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class UserManagerPage extends StatefulWidget {
   const UserManagerPage({super.key});
@@ -11,38 +12,31 @@ class UserManagerPage extends StatefulWidget {
 }
 
 class _UserManagerPageState extends State<UserManagerPage> {
-  Future<List<User>>? futureMethod;
-
   @override
   void initState() {
     super.initState();
-    futureMethod = AdminRepo().getAllUser();
+
+    final provider = Provider.of<UserProvider>(context, listen: false);
+    provider.fetchUsers();
   }
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Quản lý User"),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ElevatedButton(
-                onPressed: () {}, child: const Text("Xuất file Excel")),
-            FutureBuilder(
-              future: futureMethod,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return const Center(child: Text("Có lỗi xảy ra"));
-                }
-                List<User> userList = snapshot.data!;
-                return SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
+      body: userProvider.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {}, child: const Text("Xuất file Excel")),
+                  PaginatedDataTable(
                     columns: const <DataColumn>[
                       DataColumn(
                         label: Expanded(
@@ -125,40 +119,14 @@ class _UserManagerPageState extends State<UserManagerPage> {
                         ),
                       ),
                     ],
-                    rows: userList.asMap().entries.map((enty) {
-                      User user = enty.value;
-                      return DataRow(cells: <DataCell>[
-                        DataCell(Text(user.id.toString())),
-                        DataCell(Text(user.fullname)),
-                        DataCell(Text(user.username)),
-                        DataCell(Text(user.roomType.room_name)),
-                        DataCell(Text(user.role[0].roleName)),
-                        DataCell(Text(user.status.toString())),
-                        DataCell(IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.edit_note_sharp,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                        DataCell(IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.restore,
-                            color: Colors.red,
-                          ),
-                        )),
-                        DataCell(Text(user.rankCode.rank_name)),
-                        DataCell(Text(user.groupWork)),
-                      ]);
-                    }).toList(),
+                    source: UserDataTableSource(
+                        userProvider.users), // Nguồn dữ liệu
+                    rowsPerPage: 50, // Số hàng mỗi trang
+                    showFirstLastButtons: true,
                   ),
-                );
-              },
-            )
-          ],
-        ),
-      ),
+                ],
+              ),
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -171,4 +139,52 @@ class _UserManagerPageState extends State<UserManagerPage> {
       ),
     );
   }
+}
+
+// DataTableSource để cung cấp dữ liệu cho PaginatedDataTable
+class UserDataTableSource extends DataTableSource {
+  final List<User> users;
+
+  UserDataTableSource(this.users);
+
+  @override
+  DataRow? getRow(int index) {
+    assert(index >= 0);
+    if (index >= users.length) return null;
+    final User user = users[index];
+
+    return DataRow.byIndex(index: index, cells: [
+      DataCell(Text(user.id.toString())),
+      DataCell(Text(user.fullname)),
+      DataCell(Text(user.username)),
+      DataCell(Text(user.roomType.room_name)),
+      DataCell(Text(user.role[0].roleName)),
+      DataCell(Text(user.status.toString())),
+      DataCell(IconButton(
+        onPressed: () {},
+        icon: const Icon(
+          Icons.edit_note_sharp,
+          color: Colors.blue,
+        ),
+      )),
+      DataCell(IconButton(
+        onPressed: () {},
+        icon: const Icon(
+          Icons.restore,
+          color: Colors.red,
+        ),
+      )),
+      DataCell(Text(user.rankCode.rank_name)),
+      DataCell(Text(user.groupWork)),
+    ]);
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => users.length;
+
+  @override
+  int get selectedRowCount => 0;
 }

@@ -3,12 +3,25 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hong_hung_application/pages/log_in_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hong_hung_application/providers/staff_provider.dart';
+import 'package:hong_hung_application/providers/user_provider.dart';
 import 'package:month_year_picker/month_year_picker.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => const MyApp(), // Wrap your app
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => UserProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => StaffProvider(),
+      )
+    ],
+    child: DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => const MyApp(), // Wrap your app
+    ),
   ));
   // runApp(const MyApp());
 }

@@ -7,7 +7,7 @@ class EnterKpi extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Nhập số liệu KPI cho Khoa/Phòng"),
+        title: const Text("Nhập số liệu KPI cho Khoa/Phòng"),
       ),
     );
   }
