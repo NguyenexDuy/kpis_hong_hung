@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:hong_hung_application/api/api.dart';
+import 'package:hong_hung_application/models/models/rank_staff.dart';
+import 'package:hong_hung_application/models/models/role.dart';
 import 'package:hong_hung_application/models/models/room_type.dart';
 import 'package:hong_hung_application/models/models/staff_list.dart';
 import 'package:hong_hung_application/models/models/user.dart';
@@ -32,6 +35,51 @@ class AdminRepo {
     }
   }
 
+//get all RanksTaff for edit/create
+
+  Future<List<RankStaff>> getAllRankStaffForEditCreate() async {
+    log("dang thuc hien get rank staff for edit/create");
+    List<RankStaff> rankStaffList = [];
+    String token = await SecurityStorage.getToken();
+    try {
+      Response response = await api.sendRequest.get(
+        '/admin/getAllRankStaff',
+        options: Options(headers: header(token)),
+      );
+      var data = response.data['result'];
+      // log(jsonEncode(data));
+      if (data is List) {
+        rankStaffList = data.map((e) => RankStaff.fromJson(e)).toList();
+      }
+      return rankStaffList;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  //get all Role for edit/create
+  Future<List<Role>> getAllRoleUser() async {
+    log("dang thuc hien get rank staff for edit/create");
+    List<Role> roleList = [];
+    String token = await SecurityStorage.getToken();
+    try {
+      Response response = await api.sendRequest.get(
+        '/admin/getAllRole',
+        options: Options(headers: header(token)),
+      );
+      var data = response.data['result'];
+      // log(jsonEncode(data));
+      if (data is List) {
+        roleList = data.map((e) => Role.fromJson(e)).toList();
+      }
+      return roleList;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
 // quản lý staffs
   Future<List<StaffList>> getAllStaff() async {
     log("dang thuc hien get all staff");
@@ -43,6 +91,7 @@ class AdminRepo {
         options: Options(headers: header(token)),
       );
       var data = response.data['result'];
+      // log(data);
       if (data is List) {
         staffs = data.map((e) => StaffList.fromJson(e)).toList();
       }
@@ -64,6 +113,7 @@ class AdminRepo {
         options: Options(headers: header(token)),
       );
       var data = response.data['result'];
+      // log(jsonEncode(data));
       if (data is List) {
         rooms = data.map((e) => RoomType.fromJson(e)).toList();
       }
@@ -83,7 +133,6 @@ class AdminRepo {
       String rank_code_ID,
       String group_work,
       String role_id,
-      String role_name_ID,
       String room_type_ID,
       bool status) async {
     log("dang thuc hien them moi user");
@@ -95,9 +144,8 @@ class AdminRepo {
       "rank_code_ID": rank_code_ID,
       "group_work": group_work,
       "role_id": role_id,
-      "role_name_ID": role_name_ID,
       "room_type_ID": room_type_ID,
-      "status": bool,
+      "status": status,
     };
     String token = await SecurityStorage.getToken();
     try {
@@ -106,7 +154,7 @@ class AdminRepo {
         data: body,
         options: Options(headers: header(token)),
       );
-      if (response.statusCode == 200) {
+      if (response.data['code'] == 1000) {
         return "SUCCESSED";
       } else {
         return "FAILED";

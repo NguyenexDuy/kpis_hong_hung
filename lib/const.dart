@@ -10,6 +10,21 @@ const List<String> myListt = [
 
 List<String> myList = ["CEO giám đốc", "ádfasdf", "ádfd"];
 
+List<Map<String, dynamic>> listGroup = [
+  {"character": "A", "name": "Nhóm A"},
+  {"character": "B", "name": "Nhóm B"},
+  {"character": "C", "name": "Nhóm C"},
+  {"character": "D", "name": "Nhóm D"},
+  {"character": "E", "name": "Nhóm E"},
+  {"character": "F", "name": "Nhóm F"},
+  {"character": "G", "name": "Nhóm G"},
+  {"character": "H", "name": "Nhóm H"},
+  {"character": "I", "name": "Nhóm I"},
+  {"character": "K", "name": "Nhóm K"},
+  {"character": "L", "name": "Nhóm L"},
+  {"character": "M", "name": "Nhóm M"},
+  {"character": "N", "name": "Nhóm N"},
+];
 const List<String> listChatLuong = [
   "0-Rất kém",
   "1",

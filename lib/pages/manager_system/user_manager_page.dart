@@ -34,8 +34,23 @@ class _UserManagerPageState extends State<UserManagerPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ElevatedButton(
-                      onPressed: () {}, child: const Text("Xuất file Excel")),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 20,
+                      left: 20,
+                    ),
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 18)),
+                        onPressed: () {},
+                        child: const Text(
+                          "Xuất file Excel",
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  ),
                   PaginatedDataTable(
                     columns: const <DataColumn>[
                       DataColumn(

@@ -233,13 +233,13 @@ class DrawerWidget extends StatelessWidget {
                         title: const Text('KPIs cá nhân'),
                         children: <Widget>[
                           //for manager
-                          role == "Manager"
+                          role == "Manager" || role == "Admin"
                               ? const ListTile(
                                   title: Text(
                                       'Đánh giá lãnh đạo quản lý trực tiếp'),
                                 )
                               : const SizedBox(),
-                          role == "Manager"
+                          role == "Manager" || role == "Admin"
                               ? const ListTile(
                                   title: Text('Tự đánh giá bản thân'),
                                 )
@@ -256,14 +256,35 @@ class DrawerWidget extends StatelessWidget {
                                       'Trưởng nhóm đánh giá các trưởng nhóm khác'),
                                 )
                               : const SizedBox(),
-                          role == "Manager"
+                          role == "Manager" || role == "Admin"
                               ? const ListTile(
                                   title: Text(
                                       'Trưởng/phòng khoa, Trưởng phòng đánh giá BS/NVVP'),
                                 )
                               : const SizedBox(),
-
-                          role == "User"
+                          const ListTile(
+                            title: Text(
+                                'Điều dưỡng/KTY/Hộ sinh trưởng khoa đánh giá các nhóm trưởng(nếu có)'),
+                          ),
+                          const ListTile(
+                            title: Text(
+                                'Điều dưỡng/KTY/Hộ sinh trưởng khoa đánh giá các nhân viên không có trưởng nhóm'),
+                          ),
+                          const ListTile(
+                            title: Text(
+                                'Điều dưỡng/KTY/Hộ sinh trưởng khoa đánh giá cấp trên'),
+                          ),
+                          const ListTile(
+                            title: Text(
+                                'Điều dưỡng/KTY/Hộ sinh trưởng khoa đánh giá các thành viên'),
+                          ),
+                          const ListTile(
+                            title: Text('Trưởng nhóm đánh giá các thành viên'),
+                          ),
+                          const ListTile(
+                            title: Text('Trưởng nhóm đánh giá cấp trên'),
+                          ),
+                          role == "User" || role == "Admin"
                               ? ListTile(
                                   title: const Text('Kết quả tự đánh giá'),
                                   onTap: () {
@@ -276,14 +297,25 @@ class DrawerWidget extends StatelessWidget {
                                   },
                                 )
                               : const SizedBox(),
-                          role == "User"
+                          role == "User" || role == "Admin"
                               ? const ListTile(
                                   title: Text('Đánh giá các cấp trên'))
                               : const SizedBox(),
-                          role == "User"
+                          role == "User" || role == "Admin"
                               ? const ListTile(
                                   title:
                                       Text('Các thành viên đánh giá lẫn nhau'))
+                              : const SizedBox(),
+
+                          role == "Admin"
+                              ? const ListTile(
+                                  title: Text(
+                                      'Giám đốc đánh giá các lãnh đạo phụ trách Khoa/Phòng'))
+                              : const SizedBox(),
+                          role == "Admin"
+                              ? const ListTile(
+                                  title: Text(
+                                      'Ban giám đốc đánh giá các cấp quản lý Khoa/Phòng'))
                               : const SizedBox(),
                         ],
                       ),
@@ -294,7 +326,7 @@ class DrawerWidget extends StatelessWidget {
                         leading: const Icon(Icons.my_library_books_outlined),
                         title: const Text('Nhật ký KPIs cá nhân'),
                         children: <Widget>[
-                          role == "Manager"
+                          role == "Manager" || role == "Admin"
                               ? ListTile(
                                   title: const Text(
                                       'Kết quả nhân viên tự đánh giá'),
@@ -308,14 +340,14 @@ class DrawerWidget extends StatelessWidget {
                                   },
                                 )
                               : const SizedBox(),
-                          role == "Manager"
+                          role == "Manager" || role == "Admin"
                               ? ListTile(
                                   title:
                                       const Text('Kết quả đánh giá lãnh đạo'),
                                   onTap: () {},
                                 )
                               : const SizedBox(),
-                          role == "Manager"
+                          role == "Manager" || role == "Admin"
                               ? ListTile(
                                   title: const Text('Kết quả KPI cá nhân'),
                                   onTap: () {
@@ -328,7 +360,7 @@ class DrawerWidget extends StatelessWidget {
                                   },
                                 )
                               : const SizedBox(),
-                          role == "Manager"
+                          role == "Manager" || role == "Admin"
                               ? ListTile(
                                   title: const Text(
                                       'Kết quả quản lý đánh giá nhân viên'),
@@ -364,7 +396,7 @@ class DrawerWidget extends StatelessWidget {
                                   ));
                             },
                           ),
-                          role == "Manager"
+                          role == "Manager" || role == "Admin"
                               ? ListTile(
                                   title: const Text(
                                       'Ý kiến nhân viên đánh giá lẫn nhau'),
@@ -418,6 +450,33 @@ class DrawerWidget extends StatelessWidget {
                           role == "User"
                               ? ListTile(
                                   title: const Text('Xem cấp trên đánh giá'),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SeeSuperiorsReviews(),
+                                        ));
+                                  },
+                                )
+                              : const SizedBox(),
+                          role == "Admin"
+                              ? ListTile(
+                                  title: const Text(
+                                      'Kết quả nhân viên tự đánh giá'),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SeeSuperiorsReviews(),
+                                        ));
+                                  },
+                                )
+                              : const SizedBox(),
+                          role == "Admin"
+                              ? ListTile(
+                                  title: const Text('Kết quả KPI cá nhân'),
                                   onTap: () {
                                     Navigator.push(
                                         context,
