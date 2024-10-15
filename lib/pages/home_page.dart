@@ -53,7 +53,16 @@ class _HomePageState extends State<HomePage> {
               fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
-      drawer: DrawerWidget(future: future, fullName: fullName, role: role),
+      drawer: FutureBuilder(
+          future: future,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return const Center(child: Text("Có lỗi xảy ra"));
+            }
+            return DrawerWidget(fullName: fullName, role: role, user: user!);
+          }),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Container(

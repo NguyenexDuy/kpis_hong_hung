@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:hong_hung_application/api/api.dart';
+import 'package:hong_hung_application/const.dart';
+import 'package:hong_hung_application/models/models/staff_list.dart';
 import 'package:hong_hung_application/models/result/rs_manager_as_yourself.dart';
 import 'package:hong_hung_application/models/result/rs_member_assess.dart';
 import 'package:hong_hung_application/models/result/rs_personal_kpi.dart';
@@ -32,6 +35,76 @@ class StaffRepo {
         log("da lay xong");
       }
       return mList;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  //get staff by Username
+  Future<StaffList> getStaffbyUsername(String userName) async {
+    log("thuc hien get staff by usernaem");
+    String token = await SecurityStorage.getToken();
+    try {
+      Response response = await api.sendRequest.get(
+          "/staff/getStaffByUserName/$userName",
+          options: Options(headers: header(token)));
+      var data = response.data["result"];
+      // log(jsonEncode(data));
+      StaffList staffList = StaffList.fromJson(data);
+      return staffList;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+//tự đánh giá bản thân(User)
+  Future<bool> SeflAsStaff(
+      String staffCode,
+      String fullName,
+      String rank,
+      String groupRank,
+      String roomName,
+      String roomSymbol,
+      String createdBy,
+      int month,
+      int year,
+      int kyluatLD,
+      int chatluongTHCM,
+      int mdHTvaPT,
+      int mucdoPhoiHop,
+      String note) async {
+    log("thuc hien tu danh gia");
+    String token = await SecurityStorage.getToken();
+    Map<String, dynamic> body = {
+      "staff_code": staffCode,
+      "name": fullName,
+      "rank": rank,
+      "group_rank": groupRank,
+      "room_name": roomName,
+      "room_symbol": roomSymbol,
+      "month": month,
+      "created_by": createdBy,
+      "year": year,
+      "ky_luat_va_thuong": kyluatLD,
+      "muc_do_phoi_hop": mucdoPhoiHop,
+      "chat_luong_chuyen_mon": chatluongTHCM,
+      "diem_muc_do_hoc_tap_pt": mdHTvaPT,
+      "note": note,
+    };
+    try {
+      Response response = await api.sendRequest.post(
+          "/staff/saveSelfAssessStaff",
+          options: Options(headers: header(token)),
+          data: body);
+      if (response.statusCode == 200) {
+        log("tu danh gia successed");
+        return true;
+      } else {
+        log("tu danh gia failed");
+        return false;
+      }
     } catch (ex) {
       log(ex.toString());
       rethrow;

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hong_hung_application/api/repository/admin_repo.dart';
 import 'package:hong_hung_application/const.dart';
 import 'package:hong_hung_application/models/models/rank_staff.dart';
@@ -276,7 +277,7 @@ class _EditUserPageState extends State<EditUserPage> {
                 String role_id = selectionRole!.id.toString();
                 String room_type_ID = selectionRoomType!.room_id.toString();
                 bool status = true;
-                String result = await AdminRepo().saveAccount(
+                bool result = await AdminRepo().saveAccount(
                     fullname,
                     password,
                     username,
@@ -286,7 +287,17 @@ class _EditUserPageState extends State<EditUserPage> {
                     role_id,
                     room_type_ID,
                     status);
-                log(result);
+                if (result) {
+                  Navigator.pop(context, false);
+                  // Fluttertoast.showToast(
+                  //     msg: "Tạo User thành công",
+                  //     toastLength: Toast.LENGTH_SHORT,
+                  //     gravity: ToastGravity.CENTER,
+                  //     timeInSecForIosWeb: 1,
+                  //     backgroundColor: Colors.red,
+                  //     textColor: Colors.white,
+                  //     fontSize: 16.0);
+                }
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.primary,

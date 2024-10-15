@@ -20,4 +20,9 @@ class UserProvider extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
+  set users(List<User> users) {
+    _users = users;
+    notifyListeners(); // Notify listeners about the change
+  }
 }

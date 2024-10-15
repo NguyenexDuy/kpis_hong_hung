@@ -125,7 +125,7 @@ class AdminRepo {
   }
 
   //thêm mới User
-  Future<String> saveAccount(
+  Future<bool> saveAccount(
       String fullname,
       String password,
       String username,
@@ -155,9 +155,12 @@ class AdminRepo {
         options: Options(headers: header(token)),
       );
       if (response.data['code'] == 1000) {
-        return "SUCCESSED";
+        log("Create user successed");
+        return true;
       } else {
-        return "FAILED";
+        log("Create user failed");
+
+        return false;
       }
     } catch (ex) {
       log(ex.toString());

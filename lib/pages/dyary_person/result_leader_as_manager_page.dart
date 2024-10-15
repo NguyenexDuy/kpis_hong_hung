@@ -38,10 +38,12 @@ class _ResultLeaderAsManagerPageState extends State<ResultLeaderAsManagerPage> {
         _selected = selected;
         _selectedMonth = _selected!.month;
         _selectedYear = _selected!.year;
-        futureMethod = ManagerRepo().getResultLeaderAssessManager();
+        futureMethod = ManagerRepo()
+            .getResultLeaderAssessManager(_selectedMonth!, _selectedYear!);
       });
       setState(() {
-        futureMethod = ManagerRepo().getResultLeaderAssessManager();
+        futureMethod = ManagerRepo()
+            .getResultLeaderAssessManager(_selectedMonth!, _selectedYear!);
       });
     }
     log(_selectedMonth.toString());

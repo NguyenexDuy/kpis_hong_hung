@@ -38,8 +38,7 @@ class _StaffManagerPageState extends State<StaffManagerPage> {
                     child: CircularProgressIndicator(),
                   )
                 : SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
+                    child: PaginatedDataTable(
                       columns: const <DataColumn>[
                         DataColumn(
                           label: Expanded(
@@ -98,19 +97,9 @@ class _StaffManagerPageState extends State<StaffManagerPage> {
                           ),
                         ),
                       ],
-                      rows: staffProvider.staffs.asMap().entries.map((enty) {
-                        StaffList staff = enty.value;
-                        int index = enty.key + 1;
-                        return DataRow(cells: <DataCell>[
-                          DataCell(Text(index.toString())),
-                          DataCell(Text(staff.staffCode)),
-                          DataCell(Text(staff.fullname)),
-                          DataCell(Text(staff.email)),
-                          DataCell(Text(staff.roomName)),
-                          DataCell(Text(staff.rank_code)),
-                          DataCell(Text(staff.group_work)),
-                        ]);
-                      }).toList(),
+                      rowsPerPage: 50,
+                      showFirstLastButtons: true,
+                      source: StaffDataSource(staffProvider.staffs),
                     ),
                   )
           ],
@@ -122,4 +111,35 @@ class _StaffManagerPageState extends State<StaffManagerPage> {
       ),
     );
   }
+}
+
+class StaffDataSource extends DataTableSource {
+  final List<StaffList> staffs;
+  StaffDataSource(this.staffs);
+
+  @override
+  DataRow? getRow(int index) {
+    assert(index >= 0);
+    if (index >= staffs.length) return null;
+    final StaffList itemStaff = staffs[index];
+
+    return DataRow.byIndex(index: index, cells: [
+      DataCell(Text(index.toString())),
+      DataCell(Text(itemStaff.staffCode)),
+      DataCell(Text(itemStaff.fullname)),
+      DataCell(Text(itemStaff.email)),
+      DataCell(Text(itemStaff.roomName)),
+      DataCell(Text(itemStaff.rank_code)),
+      DataCell(Text(itemStaff.group_work)),
+    ]);
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => staffs.length;
+
+  @override
+  int get selectedRowCount => 0;
 }

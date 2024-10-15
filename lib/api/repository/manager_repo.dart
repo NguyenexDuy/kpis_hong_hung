@@ -72,7 +72,8 @@ class ManagerRepo {
 
   //kết quả đánh giá lãnh đạo
   //xem BGĐ đánh giá
-  Future<List<RsLeaderAsManager>> getResultLeaderAssessManager() async {
+  Future<List<RsLeaderAsManager>> getResultLeaderAssessManager(
+      int month, int year) async {
     log("Dang thuc hien lay ket qua danh gia lanh dao");
     String token = await SecurityStorage.getToken();
 
@@ -80,6 +81,7 @@ class ManagerRepo {
     try {
       Response response = await api.sendRequest.get(
         "/manager/getResultLeaderAssessManager",
+        queryParameters: {"month": month, "year": year},
         options: Options(headers: header(token)),
       );
 

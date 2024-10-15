@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 class API {
   final Dio _dio = Dio();
-  String baseUrl = "http://10.10.1.106:8080";
+  String baseUrl = "http://10.10.1.123:8080";
   API() {
     _dio.options.baseUrl = "$baseUrl/";
   }
