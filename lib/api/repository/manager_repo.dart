@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:hong_hung_application/api/api.dart';
+import 'package:hong_hung_application/models/models/manager_as_leader.dart';
 import 'package:hong_hung_application/models/result/rs_leader_as_manager.dart';
 import 'package:hong_hung_application/models/result/rs_manager_as_member.dart';
 import 'package:hong_hung_application/models/result/rs_member_as_manager.dart';
@@ -156,6 +158,33 @@ class ManagerRepo {
         log("da lay xong");
       }
       return mlist;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  //đánh giá lãnh đạo quản lý  trực tiếp
+  Future<String> getResultmanagerLeaderAssessment(int month, int year) async {
+    log("Dang thuc hien lay danh gia lanh dao quan ly truc tiep");
+    String token = await SecurityStorage.getToken();
+    List<ManagerAsLeader> mlist = [];
+    try {
+      Response response = await api.sendRequest.get(
+          "/manager/getResultmanagerLeaderAssessment",
+          options: Options(headers: header(token)),
+          queryParameters: {
+            'month': month,
+            'year': year,
+          });
+
+      var data = response.data['result']['managerAssessLeaderList'];
+
+      log("LỤM ${jsonEncode(data)}");
+      if (data is List) {
+        mlist = data.map((e) => ManagerAsLeader.fromJson(e)).toList();
+      }
+      return "Lụm rồi haha";
     } catch (ex) {
       log(ex.toString());
       rethrow;

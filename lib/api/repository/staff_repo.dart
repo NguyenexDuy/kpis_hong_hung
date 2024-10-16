@@ -98,7 +98,8 @@ class StaffRepo {
           "/staff/saveSelfAssessStaff",
           options: Options(headers: header(token)),
           data: body);
-      if (response.statusCode == 200) {
+      var data = response.data["code"];
+      if (data == 1000) {
         log("tu danh gia successed");
         return true;
       } else {
@@ -219,4 +220,7 @@ class StaffRepo {
       rethrow;
     }
   }
+
+  //Đánh giá các cấp trên
+  //Các thành viên đánh giá lẫn nhau
 }

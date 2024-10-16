@@ -14,6 +14,8 @@ import 'package:hong_hung_application/pages/kpi_group/add_kpi_room_page.dart';
 import 'package:hong_hung_application/pages/kpi_group/enter_kpi_page.dart';
 import 'package:hong_hung_application/pages/kpi_group/result_kpi_page.dart';
 import 'package:hong_hung_application/pages/kpi_group/see_kpi_room_page.dart';
+import 'package:hong_hung_application/pages/kpi_person/evaluate_direct_management_leadership_page.dart';
+import 'package:hong_hung_application/pages/kpi_person/member_as_manager_page.dart';
 import 'package:hong_hung_application/pages/kpi_person/result_self_assessment.dart';
 import 'package:hong_hung_application/pages/kpi_person/self_assessment.dart';
 import 'package:hong_hung_application/pages/kpi_person/staff_evaluate_each_other.dart';
@@ -221,8 +223,17 @@ class DrawerWidget extends StatelessWidget {
                 children: <Widget>[
                   //for manager
                   role == "Manager" || role == "Admin"
-                      ? const ListTile(
-                          title: Text('Đánh giá lãnh đạo quản lý trực tiếp'),
+                      ? ListTile(
+                          title:
+                              const Text('Đánh giá lãnh đạo quản lý trực tiếp'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const EvaluateDirectManagementLeadershipPage(),
+                                ));
+                          },
                         )
                       : const SizedBox(),
                   role == "Manager" || role == "Admin"
@@ -296,7 +307,17 @@ class DrawerWidget extends StatelessWidget {
                         )
                       : const SizedBox(),
                   role == "User" || role == "Admin"
-                      ? const ListTile(title: Text('Đánh giá các cấp trên'))
+                      ? ListTile(
+                          title: const Text('Đánh giá các cấp trên'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const MemberAsManagerPage(),
+                                ));
+                          },
+                        )
                       : const SizedBox(),
                   role == "User"
                       ? ListTile(

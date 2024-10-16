@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hong_hung_application/api/repository/admin_repo.dart';
 import 'package:hong_hung_application/const.dart';
 import 'package:hong_hung_application/models/models/rank_staff.dart';
@@ -11,7 +8,6 @@ import 'package:hong_hung_application/widgets/dropdown_button_group.dart';
 import 'package:hong_hung_application/widgets/dropdown_button_rankstaff.dart';
 import 'package:hong_hung_application/widgets/dropdown_button_role.dart';
 import 'package:hong_hung_application/widgets/dropdown_button_roomtype.dart';
-import 'package:hong_hung_application/widgets/dropdown_level.dart';
 
 class EditUserPage extends StatefulWidget {
   const EditUserPage({super.key});

@@ -22,17 +22,17 @@ class _SelfAssessmentState extends State<SelfAssessment> {
   List<Map<String, dynamic>> chatluongCMvaMucdoPH =
       clthCMandMdphthdcmcKhoaPhong;
   List<Map<String, dynamic>> mucdoHTvaPT = muc_do_hoc_tap;
-  StaffList? staff;
+  Future<StaffList>? stafffuture;
 
-  void getInfoStaff() async {
-    staff = await StaffRepo().getStaffbyUsername(widget.user.username);
-    log("rank staff: ${staff!.rank_code}");
-  }
+  // Future<StaffList> getInfoStaff() async {
+  //   staff = await StaffRepo().getStaffbyUsername(widget.user.username);
+  //   return staff;
+  // }
 
   @override
   void initState() {
     super.initState();
-    getInfoStaff();
+    stafffuture = StaffRepo().getStaffbyUsername(widget.user.username);
   }
 
   @override
@@ -47,175 +47,207 @@ class _SelfAssessmentState extends State<SelfAssessment> {
       appBar: AppBar(
         title: const Text("Tự đánh giá"),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Staff code",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              TextFormField(
-                enabled: false,
-                decoration: InputDecoration(
-                  hintText: staff!.staffCode,
-                ),
-              ),
-              const Text(
-                "Full Name",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              TextFormField(
-                enabled: false,
-                decoration: InputDecoration(
-                  hintText: staff!.fullname,
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 150,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text("Tháng đánh giá"),
-                            DropdownButtonMonth(
-                              dropdownValue: dropdownValueMonth,
-                              onMonthSelected: (value) {
-                                dropdownValueMonth = value;
-                              },
+      body: FutureBuilder(
+          future: stafffuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return const Center(child: Text("Có lỗi xảy ra"));
+            }
+            var staff = snapshot.data;
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Staff code",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    TextFormField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                        hintText: staff!.staffCode,
+                      ),
+                    ),
+                    const Text(
+                      "Full Name",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    TextFormField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                        hintText: staff.fullname,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 100,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text("Tháng đánh giá"),
+                                  DropdownButtonMonth(
+                                    dropdownValue: dropdownValueMonth,
+                                    onMonthSelected: (value) {
+                                      dropdownValueMonth = value;
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
+                          ),
                         ),
+                        Expanded(
+                          flex: 1,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 100,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Năm đánh giá"),
+                                  Text("2024"),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: DropdownButtonString(
+                        dropdownValue: valuechatluongLD,
+                        myList: kiluatLDvaKt,
+                        title: "Kỉ luật lao động và khen thưởng",
+                        onChanged: (p0) {
+                          valuechatluongLD = p0;
+                        },
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 150,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Năm đánh giá"),
-                            Text("2024"),
-                          ],
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: DropdownButtonString(
+                        dropdownValue: chuluongCM,
+                        myList: chatluongCMvaMucdoPH,
+                        title: "Chất lượng thực hiện chuyên môn",
+                        onChanged: (p0) {
+                          chuluongCM = p0;
+                        },
                       ),
                     ),
-                  )
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: DropdownButtonString(
-                  dropdownValue: valuechatluongLD,
-                  myList: kiluatLDvaKt,
-                  title: "Kỉ luật lao động và khen thưởng",
-                  onChanged: (p0) {
-                    valuechatluongLD = p0;
-                  },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: DropdownButtonString(
+                        dropdownValue: mucdoHT,
+                        myList: mucdoHTvaPT,
+                        title: "Mức độ học tập và phát triển bản thân",
+                        onChanged: (p0) {
+                          mucdoHT = p0;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: DropdownButtonString(
+                        dropdownValue: mucdoPH,
+                        myList: chatluongCMvaMucdoPH,
+                        title:
+                            "Mức độ phối hợp trong hoạt động chuyên môn của khoa/phòng",
+                        onChanged: (p0) {
+                          mucdoPH = p0;
+                        },
+                      ),
+                    ),
+                    TextField(
+                        controller: noteController,
+                        decoration: const InputDecoration(
+                          hintText: "Ghi chú...",
+                        )),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+                          String staffCode = staff!.staffCode;
+                          String name = staff!.fullname;
+                          String groupRank = staff!.group_work;
+                          String rank = staff!.rank_code;
+                          String roomName = staff!.roomName;
+                          String roomSymbol = staff!.user.roomType.room_symbol;
+                          String createdBy = staff!.user.username;
+                          log("createdBy: $createdBy");
+                          String note = noteController.text;
+                          int month = dropdownValueMonth;
+                          int year = 2024;
+                          int kyluatvaThuong =
+                              int.parse(valuechatluongLD['id']);
+                          int mucDoPhoiHop = int.parse(mucdoPH['id']);
+                          int chatLuongChuyenMon = int.parse(chuluongCM['id']);
+                          int diemMucDoHocTap = int.parse(mucdoHT['id']);
+                          bool result = await StaffRepo().SeflAsStaff(
+                              staffCode,
+                              name,
+                              rank,
+                              groupRank,
+                              roomName,
+                              roomSymbol,
+                              createdBy,
+                              month,
+                              year,
+                              kyluatvaThuong,
+                              chatLuongChuyenMon,
+                              diemMucDoHocTap,
+                              mucDoPhoiHop,
+                              note);
+                          String msg = result
+                              ? "Tự đánh giá thành công"
+                              : "Bạn đã đánh giá tháng này rồi";
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(SnackBar(content: Text(msg)));
+                          }
+                          if (result) {
+                            Navigator.pop(context);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 50),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary),
+                        child: const Text(
+                          "Đánh giá",
+                          style: TextStyle(color: Colors.white),
+                        ))
+                  ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: DropdownButtonString(
-                  dropdownValue: chuluongCM,
-                  myList: chatluongCMvaMucdoPH,
-                  title: "Chất lượng thực hiện chuyên môn",
-                  onChanged: (p0) {
-                    chuluongCM = p0;
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: DropdownButtonString(
-                  dropdownValue: mucdoHT,
-                  myList: mucdoHTvaPT,
-                  title: "Mức độ học tập và phát triển bản thân",
-                  onChanged: (p0) {
-                    mucdoHT = p0;
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: DropdownButtonString(
-                  dropdownValue: mucdoPH,
-                  myList: chatluongCMvaMucdoPH,
-                  title:
-                      "Mức độ phối hợp trong hoạt động chuyên môn của khoa/phòng",
-                  onChanged: (p0) {
-                    mucdoPH = p0;
-                  },
-                ),
-              ),
-              TextField(
-                  controller: noteController,
-                  decoration: const InputDecoration(
-                    hintText: "Ghi chú...",
-                  )),
-              ElevatedButton(
-                  onPressed: () async {
-                    String staffCode = staff!.staffCode;
-                    String name = staff!.fullname;
-                    String groupRank = staff!.group_work;
-                    String rank = staff!.rank_code;
-                    String roomName = staff!.roomName;
-                    String roomSymbol = staff!.user.roomType.room_symbol;
-                    String createdBy = staff!.user.username;
-                    log("createdBy: $createdBy");
-                    String note = noteController.text;
-                    int month = dropdownValueMonth;
-                    int year = 2024;
-                    int kyluatvaThuong = int.parse(valuechatluongLD['id']);
-                    int mucDoPhoiHop = int.parse(mucdoPH['id']);
-                    int chatLuongChuyenMon = int.parse(chuluongCM['id']);
-                    int diemMucDoHocTap = int.parse(mucdoHT['id']);
-                    bool result = await StaffRepo().SeflAsStaff(
-                        staffCode,
-                        name,
-                        rank,
-                        groupRank,
-                        roomName,
-                        roomSymbol,
-                        createdBy,
-                        month,
-                        year,
-                        kyluatvaThuong,
-                        chatLuongChuyenMon,
-                        diemMucDoHocTap,
-                        mucDoPhoiHop,
-                        note);
-                  },
-                  child: const Text("Đánh giá"))
-            ],
-          ),
-        ),
-      ),
+            );
+          }),
     );
   }
 }

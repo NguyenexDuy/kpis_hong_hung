@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class StaffEvaluateEachOther extends StatefulWidget {
-  const StaffEvaluateEachOther({super.key});
+class MemberAsManagerPage extends StatefulWidget {
+  const MemberAsManagerPage({super.key});
 
   @override
-  State<StaffEvaluateEachOther> createState() => _StaffEvaluateEachOtherState();
+  State<MemberAsManagerPage> createState() => _MemberAsManagerPageState();
 }
 
-class _StaffEvaluateEachOtherState extends State<StaffEvaluateEachOther> {
+class _MemberAsManagerPageState extends State<MemberAsManagerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Các thành viên đánh giá lẫn nhau"),
+        title: const Text("Đánh giá các cấp trên"),
       ),
       body: Center(
         child: Column(
