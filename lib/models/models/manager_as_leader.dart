@@ -5,7 +5,7 @@ class ManagerAsLeader {
   String staffCode;
   String leaderName;
   String? rankLeader;
-  String roomName;
+  String? roomName;
   User? username;
   int? ganKetTaoDongLucNv;
   int? chatLuongHoTroGiaiQuyetVd;
@@ -14,9 +14,9 @@ class ManagerAsLeader {
   int? month;
   int? year;
   String? createdAt;
-  String assessedBy;
-  String roomNameAsser;
-  String uniqueUsername;
+  String? assessedBy;
+  String? roomNameAsser;
+  String? uniqueUsername;
   String? rankAsser;
   String? timeSubmit;
   ManagerAsLeader({
@@ -24,7 +24,7 @@ class ManagerAsLeader {
     required this.staffCode,
     required this.leaderName,
     this.rankLeader,
-    required this.roomName,
+    this.roomName,
     this.username,
     this.ganKetTaoDongLucNv,
     this.chatLuongHoTroGiaiQuyetVd,
@@ -33,9 +33,9 @@ class ManagerAsLeader {
     this.month,
     this.year,
     this.createdAt,
-    required this.assessedBy,
-    required this.roomNameAsser,
-    required this.uniqueUsername,
+    this.assessedBy,
+    this.roomNameAsser,
+    this.uniqueUsername,
     this.rankAsser,
     this.timeSubmit,
   });

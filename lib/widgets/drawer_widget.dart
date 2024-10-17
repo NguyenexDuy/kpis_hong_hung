@@ -14,7 +14,11 @@ import 'package:hong_hung_application/pages/kpi_group/add_kpi_room_page.dart';
 import 'package:hong_hung_application/pages/kpi_group/enter_kpi_page.dart';
 import 'package:hong_hung_application/pages/kpi_group/result_kpi_page.dart';
 import 'package:hong_hung_application/pages/kpi_group/see_kpi_room_page.dart';
-import 'package:hong_hung_application/pages/kpi_person/evaluate_direct_management_leadership_page.dart';
+import 'package:hong_hung_application/pages/kpi_person/manager/evaluate_ddt_ktyt_hst_page.dart';
+import 'package:hong_hung_application/pages/kpi_person/manager/evaluate_direct_management_leadership_page.dart';
+import 'package:hong_hung_application/pages/kpi_person/manager/manager_as_bs_NVVP_page.dart';
+import 'package:hong_hung_application/pages/kpi_person/manager/manager_as_other_manager_page.dart';
+import 'package:hong_hung_application/pages/kpi_person/manager/self_assessment_manager_page.dart';
 import 'package:hong_hung_application/pages/kpi_person/member_as_manager_page.dart';
 import 'package:hong_hung_application/pages/kpi_person/result_self_assessment.dart';
 import 'package:hong_hung_application/pages/kpi_person/self_assessment.dart';
@@ -26,7 +30,7 @@ import 'package:hong_hung_application/pages/manager_system/user_manager_page.dar
 import 'package:hong_hung_application/storage/security_storage.dart';
 
 class DrawerWidget extends StatelessWidget {
-  DrawerWidget(
+  const DrawerWidget(
       {super.key,
       required this.fullName,
       required this.role,
@@ -34,7 +38,7 @@ class DrawerWidget extends StatelessWidget {
 
   final String? fullName;
   final String? role;
-  User user;
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -237,26 +241,58 @@ class DrawerWidget extends StatelessWidget {
                         )
                       : const SizedBox(),
                   role == "Manager" || role == "Admin"
-                      ? const ListTile(
-                          title: Text('Tự đánh giá bản thân'),
+                      ? ListTile(
+                          title: const Text('Tự đánh giá bản thân'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      SelfAssessmentManagerPage(user: user),
+                                ));
+                          },
                         )
                       : const SizedBox(),
                   role == "Manager"
-                      ? const ListTile(
-                          title:
-                              Text('Đánh giá phó khoa/phòng hoặc ĐDT/KTYT/HST'),
+                      ? ListTile(
+                          title: const Text(
+                              'Đánh giá phó khoa/phòng hoặc ĐDT/KTYT/HST'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const EvaluateDdtKtytHstPage(),
+                                ));
+                          },
                         )
                       : const SizedBox(),
                   role == "Manager"
-                      ? const ListTile(
-                          title:
-                              Text('Trưởng nhóm đánh giá các trưởng nhóm khác'),
+                      ? ListTile(
+                          title: const Text(
+                              'Trưởng nhóm đánh giá các trưởng nhóm khác'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ManagerAsOtherManagerPage(),
+                                ));
+                          },
                         )
                       : const SizedBox(),
                   role == "Manager" || role == "Admin"
-                      ? const ListTile(
-                          title: Text(
+                      ? ListTile(
+                          title: const Text(
                               'Trưởng/phòng khoa, Trưởng phòng đánh giá BS/NVVP'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ManagerAsBsNvvpPage(),
+                                ));
+                          },
                         )
                       : const SizedBox(),
                   role == "Admin"
@@ -536,7 +572,7 @@ class DrawerWidget extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LogIn(),
+                        builder: (context) => const LogIn(),
                       ));
                 },
               ),

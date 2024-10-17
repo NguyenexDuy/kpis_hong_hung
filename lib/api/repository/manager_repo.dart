@@ -3,11 +3,14 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:hong_hung_application/api/api.dart';
 import 'package:hong_hung_application/models/models/manager_as_leader.dart';
+import 'package:hong_hung_application/models/models/manager_as_member.dart';
+import 'package:hong_hung_application/models/models/self_as_manager.dart';
 import 'package:hong_hung_application/models/result/rs_leader_as_manager.dart';
 import 'package:hong_hung_application/models/result/rs_manager_as_member.dart';
 import 'package:hong_hung_application/models/result/rs_member_as_manager.dart';
 import 'package:hong_hung_application/models/result/rs_member_assess.dart';
 import 'package:hong_hung_application/models/result/rs_selt_assessment_dyary.dart';
+import 'package:hong_hung_application/pages/kpi_person/manager/self_assessment_manager_page.dart';
 import 'package:hong_hung_application/storage/security_storage.dart';
 
 class ManagerRepo {
@@ -165,7 +168,8 @@ class ManagerRepo {
   }
 
   //đánh giá lãnh đạo quản lý  trực tiếp
-  Future<String> getResultmanagerLeaderAssessment(int month, int year) async {
+  Future<List<ManagerAsLeader>> getResultmanagerLeaderAssessment(
+      int month, int year) async {
     log("Dang thuc hien lay danh gia lanh dao quan ly truc tiep");
     String token = await SecurityStorage.getToken();
     List<ManagerAsLeader> mlist = [];
@@ -180,11 +184,87 @@ class ManagerRepo {
 
       var data = response.data['result']['managerAssessLeaderList'];
 
-      log("LỤM ${jsonEncode(data)}");
+      // log("LỤM ${jsonEncode(data)}");
       if (data is List) {
         mlist = data.map((e) => ManagerAsLeader.fromJson(e)).toList();
       }
-      return "Lụm rồi haha";
+      return mlist;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  //đánh giá phó khoa/phòng hoặc ĐDT/KTYT/HST
+  Future<List<ManagerAsMember>> managerCaptainAssessment(
+      int month, int year) async {
+    log("Dang thuc hien lay danh gia pho khoa/phong hoac DDT/KTYT/HST");
+    String token = await SecurityStorage.getToken();
+    List<ManagerAsMember> mlist = [];
+    try {
+      Response response = await api.sendRequest.get(
+          "/manager/managerCaptainAssessment",
+          options: Options(headers: header(token)),
+          queryParameters: {
+            'month': month,
+            'year': year,
+          });
+
+      var data = response.data['result']['managerAssessMemberList'];
+
+      // log("LỤM ${jsonEncode(data)}");
+      if (data is List) {
+        mlist = data.map((e) => ManagerAsMember.fromJson(e)).toList();
+      }
+      return mlist;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  //Trưởng nhóm đánh giá các trưởng nhóm( nếu có)
+  Future<List<ManagerAsMember>> captainAssessment(int month, int year) async {
+    log("Dang thuc hien lay danh gia Trưởng nhóm đánh giá các trưởng nhóm( nếu có) ");
+    String token = await SecurityStorage.getToken();
+    List<ManagerAsMember> mlist = [];
+    try {
+      Response response = await api.sendRequest.get(
+          "/manager/captainAssessment",
+          options: Options(headers: header(token)),
+          queryParameters: {
+            'month': month,
+            'year': year,
+          });
+
+      var data = response.data['result']['managerAssessMemberList'];
+
+      // log("LỤM ${jsonEncode(data)}");
+      if (data is List) {
+        mlist = data.map((e) => ManagerAsMember.fromJson(e)).toList();
+      }
+      return mlist;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  Future<bool> saveSelfAssessManager(SelfAsManager params) async {
+    log("Dang thuc hien tu danh gia ban than (manager)");
+    String token = await SecurityStorage.getToken();
+    try {
+      Response response = await api.sendRequest.post(
+          "/manager/saveSelfAssessManager",
+          options: Options(headers: header(token)),
+          data: params.toJson());
+      if (response.data['code'] == 1000) {
+        log("danh gia thanh cong");
+        return true;
+      } else {
+        log("danh gia that bai: ${response.data['result']}");
+        return false;
+      }
     } catch (ex) {
       log(ex.toString());
       rethrow;

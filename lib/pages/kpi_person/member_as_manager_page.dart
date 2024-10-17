@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hong_hung_application/widgets/comming_soon_widget.dart';
 
 class MemberAsManagerPage extends StatefulWidget {
   const MemberAsManagerPage({super.key});
@@ -15,24 +16,7 @@ class _MemberAsManagerPageState extends State<MemberAsManagerPage> {
       appBar: AppBar(
         title: const Text("Đánh giá các cấp trên"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Comming soon",
-              style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary),
-            ),
-            SvgPicture.asset(
-              "assets/svg/undraw.svg",
-              width: 300,
-            )
-          ],
-        ),
-      ),
+      body: const CommingsoonWidget(),
     );
   }
 }

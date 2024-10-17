@@ -1,33 +1,28 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:hong_hung_application/api/repository/manager_repo.dart';
 import 'package:hong_hung_application/api/repository/staff_repo.dart';
 import 'package:hong_hung_application/const.dart';
+import 'package:hong_hung_application/models/models/self_as_manager.dart';
 import 'package:hong_hung_application/models/models/staff_list.dart';
 import 'package:hong_hung_application/models/models/user.dart';
 import 'package:hong_hung_application/widgets/dropdown_button_month.dart';
 import 'package:hong_hung_application/widgets/dropdown_button_string.dart';
 
-class SelfAssessment extends StatefulWidget {
-  SelfAssessment({super.key, required this.user});
-  User user;
-
+class SelfAssessmentManagerPage extends StatefulWidget {
+  const SelfAssessmentManagerPage({super.key, required this.user});
+  final User user;
   @override
-  State<SelfAssessment> createState() => _SelfAssessmentState();
+  State<SelfAssessmentManagerPage> createState() =>
+      _SelfAssessmentManagerState();
 }
 
-class _SelfAssessmentState extends State<SelfAssessment> {
-  TextEditingController noteController = TextEditingController();
+class _SelfAssessmentManagerState extends State<SelfAssessmentManagerPage> {
+  Future<StaffList>? stafffuture;
   List<Map<String, dynamic>> kiluatLDvaKt = kyloatLDvaKTList;
   List<Map<String, dynamic>> chatluongCMvaMucdoPH =
       clthCMandMdphthdcmcKhoaPhong;
   List<Map<String, dynamic>> mucdoHTvaPT = muc_do_hoc_tap;
-  Future<StaffList>? stafffuture;
-
-  // Future<StaffList> getInfoStaff() async {
-  //   staff = await StaffRepo().getStaffbyUsername(widget.user.username);
-  //   return staff;
-  // }
+  TextEditingController noteController = TextEditingController();
 
   @override
   void initState() {
@@ -37,15 +32,15 @@ class _SelfAssessmentState extends State<SelfAssessment> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> valuechatluongLD = kiluatLDvaKt.first;
-    Map<String, dynamic> chuluongCM = chatluongCMvaMucdoPH.first;
-    Map<String, dynamic> mucdoHT = mucdoHTvaPT.first;
-    Map<String, dynamic> mucdoPH = chatluongCMvaMucdoPH.first;
     int dropdownValueMonth = list.first;
-
+    Map<String, dynamic> valueKiLuatLD = kiluatLDvaKt.first;
+    Map<String, dynamic> valueMucDoGanKet = chatluongCMvaMucdoPH.first;
+    Map<String, dynamic> valueChatLuongToChuc = chatluongCMvaMucdoPH.first;
+    Map<String, dynamic> valueMucDoKiemtra = chatluongCMvaMucdoPH.first;
+    Map<String, dynamic> valueMucDoHocTap = muc_do_hoc_tap.first;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tự đánh giá"),
+        title: const Text("Tự đánh giá bản thân"),
       ),
       body: FutureBuilder(
           future: stafffuture,
@@ -55,10 +50,10 @@ class _SelfAssessmentState extends State<SelfAssessment> {
             } else if (snapshot.hasError) {
               return const Center(child: Text("Có lỗi xảy ra"));
             }
-            var staff = snapshot.data;
+            StaffList staff = snapshot.data!;
             return SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -72,7 +67,7 @@ class _SelfAssessmentState extends State<SelfAssessment> {
                     TextFormField(
                       enabled: false,
                       decoration: InputDecoration(
-                        hintText: staff!.staffCode,
+                        hintText: staff.staffCode,
                       ),
                     ),
                     const Text(
@@ -140,99 +135,100 @@ class _SelfAssessmentState extends State<SelfAssessment> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: DropdownButtonString(
-                        dropdownValue: valuechatluongLD,
+                        dropdownValue: valueKiLuatLD,
                         myList: kiluatLDvaKt,
                         title: "Kỉ luật lao động và khen thưởng",
                         onChanged: (p0) {
-                          valuechatluongLD = p0;
+                          valueKiLuatLD = p0;
                         },
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: DropdownButtonString(
-                        dropdownValue: chuluongCM,
+                        dropdownValue: valueMucDoGanKet,
                         myList: chatluongCMvaMucdoPH,
-                        title: "Chất lượng thực hiện chuyên môn",
+                        title: "Mức độ gắn kết, tạo động lực cho nv",
                         onChanged: (p0) {
-                          chuluongCM = p0;
+                          valueMucDoGanKet = p0;
                         },
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: DropdownButtonString(
-                        dropdownValue: mucdoHT,
+                        dropdownValue: valueChatLuongToChuc,
+                        myList: chatluongCMvaMucdoPH,
+                        title:
+                            "Chất lượng tổ chức, phân công công việc cho nv hợp lý",
+                        onChanged: (p0) {
+                          valueChatLuongToChuc = p0;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: DropdownButtonString(
+                        dropdownValue: valueMucDoKiemtra,
+                        myList: chatluongCMvaMucdoPH,
+                        title:
+                            "Mức độ kiểm tra, giám sát thực hiện chuyên môn của nv khoa/phòng, bộ phận",
+                        onChanged: (p0) {
+                          valueMucDoKiemtra = p0;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: DropdownButtonString(
+                        dropdownValue: valueMucDoHocTap,
                         myList: mucdoHTvaPT,
                         title: "Mức độ học tập và phát triển bản thân",
                         onChanged: (p0) {
-                          mucdoHT = p0;
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: DropdownButtonString(
-                        dropdownValue: mucdoPH,
-                        myList: chatluongCMvaMucdoPH,
-                        title:
-                            "Mức độ phối hợp trong hoạt động chuyên môn của khoa/phòng",
-                        onChanged: (p0) {
-                          mucdoPH = p0;
+                          valueMucDoHocTap = p0;
                         },
                       ),
                     ),
                     TextField(
-                        controller: noteController,
-                        decoration: const InputDecoration(
-                          hintText: "Ghi chú...",
-                        )),
-                    const SizedBox(
-                      height: 20,
+                      controller: noteController,
+                      decoration: const InputDecoration(hintText: "Ghi chú"),
                     ),
                     ElevatedButton(
                         onPressed: () async {
                           String staffCode = staff.staffCode;
                           String name = staff.fullname;
-                          String groupRank = staff.group_work;
                           String rank = staff.rank_code;
+                          String groupRank = staff.group_work;
+                          int month = dropdownValueMonth;
+                          int year = 2024;
+                          int kyluatlaodong = int.parse(valueKiLuatLD['id']);
+                          int mucdoganket = int.parse(valueMucDoGanKet['id']);
+                          int chatluongTochuc =
+                              int.parse(valueChatLuongToChuc['id']);
+                          int mucdoKiemtra = int.parse(valueMucDoKiemtra['id']);
+                          int mucdoHocTap = int.parse(valueMucDoHocTap['id']);
+                          String note = noteController.text;
                           String roomName = staff.roomName;
                           String roomSymbol = staff.user.roomType.room_symbol;
                           String createdBy = staff.user.username;
-                          log("createdBy: $createdBy");
-                          String note = noteController.text;
-                          int month = dropdownValueMonth;
-                          int year = 2024;
-                          int kyluatvaThuong =
-                              int.parse(valuechatluongLD['id']);
-                          int mucDoPhoiHop = int.parse(mucdoPH['id']);
-                          int chatLuongChuyenMon = int.parse(chuluongCM['id']);
-                          int diemMucDoHocTap = int.parse(mucdoHT['id']);
-                          bool result = await StaffRepo().SeflAsStaff(
-                              staffCode,
-                              name,
-                              rank,
-                              groupRank,
-                              roomName,
-                              roomSymbol,
-                              createdBy,
-                              month,
-                              year,
-                              kyluatvaThuong,
-                              chatLuongChuyenMon,
-                              diemMucDoHocTap,
-                              mucDoPhoiHop,
-                              note);
-                          String msg = result
-                              ? "Tự đánh giá thành công"
-                              : "Bạn đã đánh giá tháng này rồi";
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(content: Text(msg)));
-                          }
-                          if (result) {
-                            Navigator.pop(context);
-                          }
+                          SelfAsManager item = SelfAsManager(
+                              staffCode: staffCode,
+                              rank: rank,
+                              month: month,
+                              year: year,
+                              kyLuatVaThuong: kyluatlaodong,
+                              ganKetTaoDongLucNv: mucdoganket,
+                              chatLuongToChucPhanCongCv: chatluongTochuc,
+                              ktraGiamSatChuyenMonNv: mucdoKiemtra,
+                              diemMucDoHocTapPt: mucdoHocTap,
+                              roomName: roomName,
+                              name: name,
+                              groupRank: groupRank,
+                              roomSymbol: roomSymbol,
+                              createdBy: createdBy,
+                              note: note);
+                          bool result =
+                              await ManagerRepo().saveSelfAssessManager(item);
                         },
                         style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
