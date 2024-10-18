@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:hong_hung_application/api/api.dart';
@@ -18,6 +19,7 @@ class APIRepository {
       );
       if (response.statusCode == 200) {
         final tokenData = response.data['result']['token'];
+
         bool r =
             await SecurityStorage.saveToken(response.data['result']['token']);
         log("LOGIN SUCCESS WITH TOKEN:$tokenData");
@@ -33,19 +35,35 @@ class APIRepository {
     }
   }
 
-  Future<User?> getInformation() async {
+  Future<User> getInformation() async {
     String token = await SecurityStorage.getToken();
     try {
       Response response = await api.sendRequest.get("/users/getUserInfomation",
           options: Options(headers: header(token)));
-      if (response.statusCode == 200) {
-        var data = response.data['result'];
-        User userInfo = User.fromJson(data);
 
-        return userInfo;
-      } else {
-        return null;
-      }
+      var data = response.data['result'];
+      User userInfo = User.fromJson(data);
+
+      return userInfo;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  Future<void> getInformationn() async {
+    log("thuc hien getinfo new");
+    String token = await SecurityStorage.getToken();
+    try {
+      Response response = await api.sendRequest.get("/users/getUserInfomation",
+          options: Options(headers: header(token)));
+
+      var data = response.data['result'];
+      User userInfo = User.fromJson(data);
+
+      String jsonUser = jsonEncode(userInfo);
+      log("da lay thanh cong voi jsonUser: $jsonUser");
+      bool result = await SecurityStorage.saveUserInformation(jsonUser);
     } catch (ex) {
       log(ex.toString());
       rethrow;

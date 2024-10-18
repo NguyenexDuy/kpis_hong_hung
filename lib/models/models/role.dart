@@ -11,4 +11,8 @@ class Role {
         id: json['id'] as int,
         roleName: json['rolename'],
       );
+
+  Map<String, dynamic> toJson() {
+    return {"id": id, "rolename": roleName};
+  }
 }

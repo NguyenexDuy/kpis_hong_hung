@@ -24,4 +24,14 @@ class RankStaff {
       ts_kpi: json['ts_kpi'],
       ts_mt: json['ts_mt'],
       groupRank: GroupRank.fromJson(json['group_rank_staff']));
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'rank_code': rank_code,
+      'rank_name': rank_name,
+      'ts_kpi': ts_kpi,
+      'ts_mt': ts_mt,
+      'group_rank_staff': groupRank.toJson(), // Call the toJson() for GroupRank
+    };
+  }
 }

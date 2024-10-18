@@ -1,31 +1,29 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:hong_hung_application/models/models/rank_staff.dart';
-import 'package:hong_hung_application/models/models/room_type.dart';
 import 'package:hong_hung_application/models/models/user.dart';
 
-class DropdownButtonRankStaff extends StatefulWidget {
-  DropdownButtonRankStaff(
+class DropdownButtonUserforeditroom extends StatefulWidget {
+  DropdownButtonUserforeditroom(
       {super.key,
       required this.myList,
       required this.dropdownValue,
       required this.title,
       required this.onChanged});
-  final List<RankStaff> myList;
-  RankStaff dropdownValue;
+  final List<User> myList;
+  User dropdownValue;
   String title;
-  final Function(RankStaff) onChanged;
-
+  final Function(User) onChanged;
   @override
-  State<DropdownButtonRankStaff> createState() =>
-      _DropdownButtonRankStaffState();
+  State<DropdownButtonUserforeditroom> createState() =>
+      _DropdownButtonUserforeditroomState();
 }
 
-class _DropdownButtonRankStaffState extends State<DropdownButtonRankStaff> {
+class _DropdownButtonUserforeditroomState
+    extends State<DropdownButtonUserforeditroom> {
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<RankStaff>(
+    return DropdownButtonFormField<User>(
       isExpanded: true,
       decoration: InputDecoration(
           contentPadding:
@@ -48,20 +46,20 @@ class _DropdownButtonRankStaffState extends State<DropdownButtonRankStaff> {
           ),
           labelText: widget.title,
           labelStyle: TextStyle(color: Colors.grey[400])),
-      items: widget.myList.map<DropdownMenuItem<RankStaff>>((RankStaff value) {
-        return DropdownMenuItem<RankStaff>(
+      items: widget.myList.map<DropdownMenuItem<User>>((User value) {
+        return DropdownMenuItem<User>(
           value: value,
           child: Text(
-            value.rank_name,
+            value.fullname,
           ),
         );
       }).toList(),
       value: widget.dropdownValue,
-      onChanged: (RankStaff? newValue) {
+      onChanged: (User? newValue) {
         setState(() {
           widget.dropdownValue = newValue!;
           widget.onChanged(newValue);
-          log(newValue.rank_name);
+          log(newValue.username);
         });
       },
     );

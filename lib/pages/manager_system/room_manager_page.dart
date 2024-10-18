@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hong_hung_application/api/repository/admin_repo.dart';
 import 'package:hong_hung_application/models/models/room_type.dart';
+import 'package:hong_hung_application/pages/manager_system/eidt_room_page.dart';
+import 'package:hong_hung_application/widgets/dataSources/roomtype_dataSource.dart';
 
 class RoomManagerPage extends StatefulWidget {
   const RoomManagerPage({super.key});
@@ -11,6 +13,7 @@ class RoomManagerPage extends StatefulWidget {
 
 class _RoomManagerPageState extends State<RoomManagerPage> {
   Future<List<RoomType>>? futureMethod;
+  bool edit = true;
   @override
   void initState() {
     super.initState();
@@ -39,8 +42,7 @@ class _RoomManagerPageState extends State<RoomManagerPage> {
                 }
                 List<RoomType> roomtypeList = snapshot.data!;
                 return SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
+                  child: PaginatedDataTable(
                     columns: const <DataColumn>[
                       DataColumn(
                         label: Expanded(
@@ -99,24 +101,8 @@ class _RoomManagerPageState extends State<RoomManagerPage> {
                         ),
                       ),
                     ],
-                    rows: roomtypeList.asMap().entries.map((enty) {
-                      RoomType room = enty.value;
-                      return DataRow(cells: <DataCell>[
-                        DataCell(Text(room.room_id.toString())),
-                        DataCell(Text(room.room_name)),
-                        DataCell(Text(room.room_symbol)),
-                        DataCell(Text(room.unique_username)),
-                        DataCell(Text(room.created_by)),
-                        DataCell(Text(room.created_at)),
-                        DataCell(IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.edit_note_sharp,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        )),
-                      ]);
-                    }).toList(),
+                    source:
+                        RoomTypeDataTableSource(roomtypeList, context, edit),
                   ),
                 );
               },
@@ -125,7 +111,16 @@ class _RoomManagerPageState extends State<RoomManagerPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          edit = false;
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EidtRoomPage(
+                  edit: edit,
+                ),
+              ));
+        },
         child: const Icon(Icons.add),
       ),
     );

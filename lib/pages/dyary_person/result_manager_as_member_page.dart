@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hong_hung_application/api/repository/manager_repo.dart';
 import 'package:hong_hung_application/models/result/rs_manager_as_member.dart';
+import 'package:hong_hung_application/widgets/dataSources/rs_assessment_dataSource.dart';
+import 'package:hong_hung_application/widgets/dataSources/rs_manager_as_member_dataSource.dart';
 import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
@@ -92,8 +94,7 @@ class _ResultManagerAsMemberPageState extends State<ResultManagerAsMemberPage> {
                       }
                       List<RsManagerAsMember> mList = snapshot.data!;
                       return SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DataTable(
+                        child: PaginatedDataTable(
                           columns: const <DataColumn>[
                             DataColumn(
                               label: Expanded(
@@ -176,26 +177,7 @@ class _ResultManagerAsMemberPageState extends State<ResultManagerAsMemberPage> {
                               ),
                             ),
                           ],
-                          rows: mList.asMap().entries.map((entry) {
-                            RsManagerAsMember item = entry.value;
-                            int index = entry.key + 1;
-                            return DataRow(cells: <DataCell>[
-                              DataCell(Text('$index')),
-                              DataCell(Text(item.createdAt.toString())),
-                              DataCell(Text(item.assessedBy)),
-                              DataCell(Text(item.roomName)),
-                              DataCell(Text(
-                                  item.markMemberAssessedAverage.toString())),
-                              DataCell(Text(item.memberName)),
-                              DataCell(
-                                  Text(item.kyLuatKhenThuongMember.toString())),
-                              DataCell(Text(
-                                  item.chatLuongChuyenMonMember.toString())),
-                              DataCell(Text(
-                                  item.bangChungHocTapPtMember.toString())),
-                              DataCell(Text(item.managerEvaluateCmt!)),
-                            ]);
-                          }).toList(),
+                          source: ResultManagerAsMemberDataSource(mList),
                         ),
                       );
                     },

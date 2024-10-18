@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hong_hung_application/api/repository/staff_repo.dart';
 import 'package:hong_hung_application/models/result/rs_selt_assessment_dyary.dart';
+import 'package:hong_hung_application/widgets/dataSources/rs_sefl_assessmentDyaryMD_dataSource.dart';
 import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
@@ -91,137 +92,109 @@ class _ResultSelfAsStaffPageState extends State<ResultSelfAsStaffPage> {
 
                       List<ResultSeltAssessmentDyary_MD> mlist = snapshot.data!;
                       return SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DataTable(
-                            columns: const <DataColumn>[
-                              DataColumn(
-                                label: Expanded(
+                        child: PaginatedDataTable(
+                          columns: const <DataColumn>[
+                            DataColumn(
+                              label: Expanded(
+                                child: Text(
+                                  'STT',
+                                  style: TextStyle(fontStyle: FontStyle.italic),
+                                ),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Expanded(
+                                child: Text(
+                                  'Mã nhân viên',
+                                  style: TextStyle(fontStyle: FontStyle.italic),
+                                ),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Expanded(
+                                child: Text(
+                                  'Họ tên',
+                                  style: TextStyle(fontStyle: FontStyle.italic),
+                                ),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Expanded(
+                                child: Text(
+                                  'Cấp nhân sự',
+                                  style: TextStyle(fontStyle: FontStyle.italic),
+                                ),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Expanded(
+                                child: Center(
                                   child: Text(
-                                    'STT',
+                                    'Đơn vị',
                                     style:
                                         TextStyle(fontStyle: FontStyle.italic),
                                   ),
                                 ),
                               ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Text(
-                                    'Mã nhân viên',
-                                    style:
-                                        TextStyle(fontStyle: FontStyle.italic),
-                                  ),
+                            ),
+                            DataColumn(
+                              label: Expanded(
+                                child: Text(
+                                  'Tháng đánh giá',
+                                  style: TextStyle(fontStyle: FontStyle.italic),
                                 ),
                               ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Text(
-                                    'Họ tên',
-                                    style:
-                                        TextStyle(fontStyle: FontStyle.italic),
-                                  ),
+                            ),
+                            DataColumn(
+                              label: SizedBox(
+                                width: 100,
+                                child: Text(
+                                  'Kỷ luật lđ và khen thưởng',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontStyle: FontStyle.italic),
                                 ),
                               ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Text(
-                                    'Cấp nhân sự',
-                                    style:
-                                        TextStyle(fontStyle: FontStyle.italic),
-                                  ),
+                            ),
+                            DataColumn(
+                              label: SizedBox(
+                                width: 250,
+                                child: Text(
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  'Mức độ phối hợp trong hoạt động chuyên môn của khoa phòng',
+                                  style: TextStyle(fontStyle: FontStyle.italic),
                                 ),
                               ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      'Đơn vị',
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.italic),
-                                    ),
-                                  ),
+                            ),
+                            DataColumn(
+                              label: Expanded(
+                                child: Text(
+                                  'Chất lượng thực hiện chuyên môn',
+                                  style: TextStyle(fontStyle: FontStyle.italic),
                                 ),
                               ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Text(
-                                    'Tháng đánh giá',
-                                    style:
-                                        TextStyle(fontStyle: FontStyle.italic),
-                                  ),
+                            ),
+                            DataColumn(
+                              label: Expanded(
+                                child: Text(
+                                  'Mức độ học tập và phát triển bản thân',
+                                  style: TextStyle(fontStyle: FontStyle.italic),
                                 ),
                               ),
-                              DataColumn(
-                                label: SizedBox(
-                                  width: 100,
-                                  child: Text(
-                                    'Kỷ luật lđ và khen thưởng',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style:
-                                        TextStyle(fontStyle: FontStyle.italic),
-                                  ),
+                            ),
+                            DataColumn(
+                              label: Expanded(
+                                child: Text(
+                                  'Ghi chú',
+                                  style: TextStyle(fontStyle: FontStyle.italic),
                                 ),
                               ),
-                              DataColumn(
-                                label: SizedBox(
-                                  width: 250,
-                                  child: Text(
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    'Mức độ phối hợp trong hoạt động chuyên môn của khoa phòng',
-                                    style:
-                                        TextStyle(fontStyle: FontStyle.italic),
-                                  ),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Text(
-                                    'Chất lượng thực hiện chuyên môn',
-                                    style:
-                                        TextStyle(fontStyle: FontStyle.italic),
-                                  ),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Text(
-                                    'Mức độ học tập và phát triển bản thân',
-                                    style:
-                                        TextStyle(fontStyle: FontStyle.italic),
-                                  ),
-                                ),
-                              ),
-                              DataColumn(
-                                label: Expanded(
-                                  child: Text(
-                                    'Ghi chú',
-                                    style:
-                                        TextStyle(fontStyle: FontStyle.italic),
-                                  ),
-                                ),
-                              ),
-                            ],
-                            rows: mlist.asMap().entries.map((enty) {
-                              int index = enty.key + 1;
-                              ResultSeltAssessmentDyary_MD item = enty.value;
-                              return DataRow(cells: <DataCell>[
-                                DataCell(Text('$index')),
-                                DataCell(Text(item.staff_code)),
-                                DataCell(Text(item.name)),
-                                DataCell(Text(item.rank)),
-                                DataCell(Text(item.room_name)),
-                                DataCell(Text(item.created_at)),
-                                DataCell(
-                                    Text(item.ky_luat_va_thuong.toString())),
-                                DataCell(Text(item.muc_do_phoi_hop.toString())),
-                                DataCell(Text(
-                                    item.chat_luong_chuyen_mon.toString())),
-                                DataCell(Text(
-                                    item.diem_muc_do_hoc_tap_pt.toString())),
-                                DataCell(Text(item.note.toString())),
-                              ]);
-                            }).toList()),
+                            ),
+                          ],
+                          source:
+                              ResultSeltAssessmentDyaryMDDataTableSource(mlist),
+                        ),
                       );
                     },
                   )

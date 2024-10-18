@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:hong_hung_application/api/api.dart';
 import 'package:hong_hung_application/const.dart';
 import 'package:hong_hung_application/models/models/staff_list.dart';
+import 'package:hong_hung_application/models/models/user.dart';
 import 'package:hong_hung_application/models/result/rs_manager_as_yourself.dart';
 import 'package:hong_hung_application/models/result/rs_member_assess.dart';
 import 'package:hong_hung_application/models/result/rs_personal_kpi.dart';
@@ -40,6 +41,22 @@ class StaffRepo {
       rethrow;
     }
   }
+
+  // Future<User> getInfomation() async {
+  //   log("dang thuc hien lay infomation user");
+  //   String token = await SecurityStorage.getToken();
+  //   User user;
+  //   try {
+  //     Response response = await api.sendRequest.get("users/getUserInfomation",
+  //         options: Options(headers: header(token)));
+  //     var userItem = response.data['result'];
+  //     user = User.fromJson(userItem);
+  //     return user;
+  //   } catch (ex) {
+  //     log(ex.toString());
+  //     rethrow;
+  //   }
+  // }
 
   //get staff by Username
   Future<StaffList> getStaffbyUsername(String userName) async {

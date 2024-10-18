@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hong_hung_application/api/repository/manager_repo.dart';
 import 'package:hong_hung_application/models/result/rs_member_assess.dart';
+import 'package:hong_hung_application/widgets/dataSources/rs_opinion_staff_dataSource.dart';
 import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
@@ -88,8 +89,7 @@ class _ResultOpinionStaffPageState extends State<ResultOpinionStaffPage> {
                     }
                     List<RsMemberAssess> mList = snapshot.data!;
                     return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DataTable(
+                      child: PaginatedDataTable(
                         columns: const <DataColumn>[
                           DataColumn(
                             label: Expanded(
@@ -140,17 +140,7 @@ class _ResultOpinionStaffPageState extends State<ResultOpinionStaffPage> {
                             ),
                           ),
                         ],
-                        rows: mList.asMap().entries.map((entry) {
-                          RsMemberAssess item = entry.value;
-                          return DataRow(cells: <DataCell>[
-                            DataCell(Text(item.staffCode.toString())),
-                            DataCell(Text(item.memberName)),
-                            DataCell(Text(item.position)),
-                            DataCell(Text(item.roomName)),
-                            DataCell(Text(item.createdAt)),
-                            DataCell(Text(item.noteDesc)),
-                          ]);
-                        }).toList(),
+                        source: RsMemberAssessDataSource(mList),
                       ),
                     );
                   },

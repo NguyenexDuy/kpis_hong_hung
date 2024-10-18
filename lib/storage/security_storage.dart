@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:hong_hung_application/models/models/user.dart';
 
 class SecurityStorage {
   static AndroidOptions _getOptions() =>
@@ -22,6 +24,7 @@ class SecurityStorage {
   }
 
   static Future<bool> saveUserInformation(String user) async {
+    log("thuc hien storage save inforuser");
     try {
       await storage.write(key: "user", value: user);
     } catch (ex) {
@@ -33,5 +36,12 @@ class SecurityStorage {
   static Future<String> getToken() async {
     String? token = await storage.read(key: "token");
     return token ?? "";
+  }
+
+  static Future<User> getUser() async {
+    String? jsonString = await storage.read(key: "user");
+
+    Map<String, dynamic> jsonData = jsonDecode(jsonString!);
+    return User.fromJson(jsonData);
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hong_hung_application/api/repository/manager_repo.dart';
 import 'package:hong_hung_application/api/repository/staff_repo.dart';
 import 'package:hong_hung_application/models/result/rs_selt_assessment_dyary.dart';
+import 'package:hong_hung_application/widgets/dataSources/rs_sefl_assessmentDyaryMD_dataSource.dart';
 
 class ResultselfassessmentDyary extends StatefulWidget {
   ResultselfassessmentDyary({super.key, required this.role});
@@ -40,8 +41,7 @@ class _ResultselfassessmentDyaryState extends State<ResultselfassessmentDyary> {
             List<ResultSeltAssessmentDyary_MD> mList = snapshot.data!;
 
             return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
+              child: PaginatedDataTable(
                 columns: const <DataColumn>[
                   DataColumn(
                     label: Expanded(
@@ -140,23 +140,7 @@ class _ResultselfassessmentDyaryState extends State<ResultselfassessmentDyary> {
                     ),
                   ),
                 ],
-                rows: mList.asMap().entries.map((entry) {
-                  int index = entry.key + 1;
-                  ResultSeltAssessmentDyary_MD item = entry.value;
-                  return DataRow(cells: <DataCell>[
-                    DataCell(Text('$index')),
-                    DataCell(Center(child: Text(item.staff_code))),
-                    DataCell(Text(item.name)),
-                    DataCell(Text(item.rank)),
-                    DataCell(Text(item.room_name)),
-                    DataCell(Text('${item.month}/${item.year}')),
-                    DataCell(Text('${item.ky_luat_va_thuong}')),
-                    DataCell(Text('${item.muc_do_phoi_hop}')),
-                    DataCell(Text('${item.chat_luong_chuyen_mon}')),
-                    DataCell(Text('${item.diem_muc_do_hoc_tap_pt}')),
-                    DataCell(Text(item.note)),
-                  ]);
-                }).toList(),
+                source: ResultSeltAssessmentDyaryMDDataTableSource(mList),
               ),
             );
           }),

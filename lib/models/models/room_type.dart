@@ -25,4 +25,14 @@ class RoomType {
       unique_username: json['unique_username'],
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'room_id': room_id,
+      'created_at': created_at,
+      'created_by': created_by,
+      'room_name': room_name,
+      'room_symbol': room_symbol,
+      'unique_username': unique_username,
+    };
+  }
 }

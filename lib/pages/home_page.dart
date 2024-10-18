@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:hong_hung_application/api/api_repo.dart';
 import 'package:hong_hung_application/models/models/user.dart';
+import 'package:hong_hung_application/storage/security_storage.dart';
 import 'package:hong_hung_application/widgets/drawer_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
     'assets/background/bvhh4.png',
   ];
   User? user;
+  User? user2;
   String? fullName;
   String? role;
   Future<void>? future;
@@ -34,10 +36,16 @@ class _HomePageState extends State<HomePage> {
     log("da lay xong ");
   }
 
+  Future<void> getInfo() async {
+    log("dang thuc hien ham lay thong tin user new");
+    user2 = await SecurityStorage.getUser();
+  }
+
   @override
   void initState() {
     super.initState();
     future = getInforUser();
+    getInfo();
   }
 
   @override
@@ -65,33 +73,38 @@ class _HomePageState extends State<HomePage> {
           }),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Container(
-          height: 200,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).colorScheme.secondary,
-                spreadRadius: 5,
-                blurRadius: 30,
-                offset: const Offset(-6, -6), // changes position of shadow
+        child: Column(
+          children: [
+            Container(
+              height: 200,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).colorScheme.secondary,
+                    spreadRadius: 5,
+                    blurRadius: 30,
+                    offset: const Offset(-6, -6), // changes position of shadow
+                  ),
+                  BoxShadow(
+                    color: Theme.of(context).colorScheme.primary,
+                    spreadRadius: 5,
+                    blurRadius: 30,
+                    offset: const Offset(6, 6), // changes position of shadow
+                  ),
+                ],
               ),
-              BoxShadow(
-                color: Theme.of(context).colorScheme.primary,
-                spreadRadius: 5,
-                blurRadius: 30,
-                offset: const Offset(6, 6), // changes position of shadow
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
+                  "assets/background/bvhh1.png",
+                  fit: BoxFit.cover, // Điều chỉnh để ảnh vừa với container
+                ),
               ),
-            ],
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.asset(
-              "assets/background/bvhh1.png",
-              fit: BoxFit.cover, // Điều chỉnh để ảnh vừa với container
             ),
-          ),
+            Text(user2?.fullname ?? "No user data available")
+          ],
         ),
       ),
     );

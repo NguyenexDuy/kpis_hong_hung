@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hong_hung_application/api/repository/staff_repo.dart';
 import 'package:hong_hung_application/models/result/rs_personal_kpi.dart';
+import 'package:hong_hung_application/widgets/dataSources/rs_pesonal_kpi_dataSource.dart';
 import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
@@ -90,8 +91,7 @@ class _ResultPersonalKpiState extends State<ResultPersonalKpi> {
                       }
                       List<RsPersonalKpi> mList = snapshot.data!;
                       return SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DataTable(
+                        child: PaginatedDataTable(
                           columns: const <DataColumn>[
                             DataColumn(
                               label: Expanded(
@@ -182,23 +182,7 @@ class _ResultPersonalKpiState extends State<ResultPersonalKpi> {
                               ),
                             ),
                           ],
-                          rows: mList.asMap().entries.map((entry) {
-                            RsPersonalKpi item = entry.value;
-                            int index = entry.key + 1;
-                            return DataRow(cells: <DataCell>[
-                              DataCell(Text('$index')),
-                              DataCell(Text(item.staffCode.toString())),
-                              DataCell(Text(item.fullname!)),
-                              DataCell(Text(item.roomName)),
-                              DataCell(Text(item.teamMarkAssess.toString())),
-                              DataCell(Text(item.cs1.toString())),
-                              DataCell(Text(item.cs2.toString())),
-                              DataCell(Text(item.cs3.toString())),
-                              DataCell(Text(item.resultKPI.toString())),
-                              DataCell(Text(item.date!)),
-                              DataCell(Text(item.rankCode)),
-                            ]);
-                          }).toList(),
+                          source: ResultPersonalKpiDataTableSource(mList),
                         ),
                       );
                     },

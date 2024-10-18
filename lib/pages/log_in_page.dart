@@ -25,6 +25,7 @@ class _LogInState extends State<LogIn> {
       });
       bool result =
           await api.login(userNameController.text, passWordController.text);
+      await api.getInformationn();
       setState(() {
         isLoading = false;
       });

@@ -21,4 +21,13 @@ class GroupRank {
       ts3: json['ts3'],
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "group_name": groupName,
+      "ts1": ts1,
+      "ts2": ts2,
+      "ts3": ts3,
+    };
+  }
 }

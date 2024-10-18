@@ -89,101 +89,118 @@ class _ResultAssessmentManagerState extends State<ResultAssessmentManager> {
                     }
                     List<RsMemberAsManager> mlist = snapshot.data!;
                     return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DataTable(
-                          columns: const <DataColumn>[
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Mã NV',
-                                  style: TextStyle(fontStyle: FontStyle.italic),
-                                ),
+                      child: PaginatedDataTable(
+                        columns: const <DataColumn>[
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                'Mã NV',
+                                style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Nhân viên được đánh giá',
-                                  style: TextStyle(fontStyle: FontStyle.italic),
-                                ),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                'Nhân viên được đánh giá',
+                                style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Cấp bậc',
-                                  style: TextStyle(fontStyle: FontStyle.italic),
-                                ),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                'Cấp bậc',
+                                style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Gắn kết vào tạo động lực cho nhân viên',
-                                  style: TextStyle(fontStyle: FontStyle.italic),
-                                ),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                'Gắn kết vào tạo động lực cho nhân viên',
+                                style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Chất lượng tổ chức phân công công việc',
-                                  style: TextStyle(fontStyle: FontStyle.italic),
-                                ),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                'Chất lượng tổ chức phân công công việc',
+                                style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Người đánh giá',
-                                  style: TextStyle(fontStyle: FontStyle.italic),
-                                ),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                'Người đánh giá',
+                                style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Cấp bậc  ',
-                                  style: TextStyle(fontStyle: FontStyle.italic),
-                                ),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                'Cấp bậc  ',
+                                style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Tháng/Năm',
-                                  style: TextStyle(fontStyle: FontStyle.italic),
-                                ),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                'Tháng/Năm',
+                                style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
-                            DataColumn(
-                              label: Expanded(
-                                child: Text(
-                                  'Ghi chú',
-                                  style: TextStyle(fontStyle: FontStyle.italic),
-                                ),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                              child: Text(
+                                'Ghi chú',
+                                style: TextStyle(fontStyle: FontStyle.italic),
                               ),
                             ),
-                          ],
-                          rows: mlist.asMap().entries.map((enty) {
-                            RsMemberAsManager item = enty.value;
-                            return DataRow(cells: <DataCell>[
-                              DataCell(Text(item.staff_code)),
-                              DataCell(Text(item.manager_name)),
-                              DataCell(Text(item.rank_manager)),
-                              DataCell(Text(
-                                  item.gan_ket_tao_dong_luc_nv.toString())),
-                              DataCell(Text(item.chat_luong_to_chuc_phan_cong_cv
-                                  .toString())),
-                              DataCell(Text(item.assessed_by)),
-                              DataCell(Text(item.position)),
-                              DataCell(Text("${item.month}/${item.year}")),
-                              DataCell(Text(item.note_desc)),
-                            ]);
-                          }).toList()),
+                          ),
+                        ],
+                        source: RsAssessmentManagerDataTableSource(mlist),
+                      ),
                     );
                   },
                 ),
         ]));
   }
+}
+
+class RsAssessmentManagerDataTableSource extends DataTableSource {
+  RsAssessmentManagerDataTableSource(this.rsList);
+  final List<RsMemberAsManager> rsList;
+
+  @override
+  DataRow? getRow(int index) {
+    assert(index >= 0);
+    if (index >= rsList.length) return null;
+    final RsMemberAsManager rsItem = rsList[index];
+    return DataRow.byIndex(index: index, cells: [
+      DataCell(Text(rsItem.staff_code)),
+      DataCell(Text(rsItem.manager_name)),
+      DataCell(Text(rsItem.rank_manager)),
+      DataCell(Text(rsItem.gan_ket_tao_dong_luc_nv.toString())),
+      DataCell(Text(rsItem.chat_luong_to_chuc_phan_cong_cv.toString())),
+      DataCell(Text(rsItem.assessed_by)),
+      DataCell(Text(rsItem.position)),
+      DataCell(Text("${rsItem.month}/${rsItem.year}")),
+      DataCell(Text(rsItem.note_desc)),
+    ]);
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => rsList.length;
+
+  @override
+  int get selectedRowCount => 0;
 }
