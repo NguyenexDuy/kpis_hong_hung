@@ -10,7 +10,8 @@ import 'package:hong_hung_application/widgets/dropdown_button_role.dart';
 import 'package:hong_hung_application/widgets/dropdown_button_roomtype.dart';
 
 class EditUserPage extends StatefulWidget {
-  const EditUserPage({super.key});
+  const EditUserPage({super.key, required this.edit});
+  final bool edit;
 
   @override
   State<EditUserPage> createState() => _EditUserPageState();
@@ -43,7 +44,9 @@ class _EditUserPageState extends State<EditUserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Thêm mới user"),
+        title: widget.edit
+            ? const Text("Chỉnh sửa user")
+            : const Text("Thêm mới user"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
@@ -178,9 +181,7 @@ class _EditUserPageState extends State<EditUserPage> {
 
                               return DropdownButtonRankStaff(
                                   onChanged: (p0) {
-                                    setState(() {
-                                      selectionRankstaff = p0;
-                                    });
+                                    selectionRankstaff = p0;
                                   },
                                   myList: listRank,
                                   dropdownValue: selectionRankstaff!,
@@ -220,9 +221,7 @@ class _EditUserPageState extends State<EditUserPage> {
                             selectionRole ??= initialRole;
                             return DropdownButtonRole(
                                 onChanged: (p0) {
-                                  setState(() {
-                                    selectionRole = p0;
-                                  });
+                                  selectionRole = p0;
                                 },
                                 myList: listRole,
                                 dropdownValue: selectionRole!,
@@ -246,9 +245,7 @@ class _EditUserPageState extends State<EditUserPage> {
                             selectionRoomType ??= initialRoomType;
                             return DropdownButtonRoomtype(
                                 onChanged: (p0) {
-                                  setState(() {
-                                    selectionRoomType = p0;
-                                  });
+                                  selectionRoomType = p0;
                                 },
                                 myList: listRoomTyle,
                                 dropdownValue: selectionRoomType!,

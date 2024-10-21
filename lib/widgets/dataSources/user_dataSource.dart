@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hong_hung_application/models/models/user.dart';
+import 'package:hong_hung_application/pages/manager_system/edit_user_page.dart';
 
 class UserDataTableSource extends DataTableSource {
+  final bool edit;
   final List<User> users;
+  final BuildContext context;
 
-  UserDataTableSource(this.users);
+  UserDataTableSource(this.users, this.edit, this.context);
 
   @override
   DataRow? getRow(int index) {
@@ -20,7 +23,13 @@ class UserDataTableSource extends DataTableSource {
       DataCell(Text(user.role[0].roleName)),
       DataCell(Text(user.status.toString())),
       DataCell(IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EditUserPage(edit: edit),
+              ));
+        },
         icon: const Icon(
           Icons.edit_note_sharp,
           color: Colors.blue,

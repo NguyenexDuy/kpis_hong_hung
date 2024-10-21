@@ -55,11 +55,9 @@ class _DropdownButtonRoomtypeState extends State<DropdownButtonRoomtype> {
       }).toList(),
       value: widget.dropdownValue,
       onChanged: (RoomType? newValue) {
-        setState(() {
-          widget.dropdownValue = newValue!;
-          widget.onChanged(newValue);
-          log(newValue.room_symbol);
-        });
+        widget.dropdownValue = newValue!;
+        widget.onChanged(newValue);
+        log(newValue.room_symbol);
       },
     );
   }

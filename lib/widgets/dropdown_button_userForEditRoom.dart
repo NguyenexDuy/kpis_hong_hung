@@ -56,11 +56,9 @@ class _DropdownButtonUserforeditroomState
       }).toList(),
       value: widget.dropdownValue,
       onChanged: (User? newValue) {
-        setState(() {
-          widget.dropdownValue = newValue!;
-          widget.onChanged(newValue);
-          log(newValue.username);
-        });
+        widget.dropdownValue = newValue!;
+        widget.onChanged(newValue);
+        log(newValue.username);
       },
     );
   }

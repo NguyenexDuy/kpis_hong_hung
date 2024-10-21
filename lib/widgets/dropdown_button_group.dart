@@ -49,11 +49,9 @@ class _DropdownButtonGroupState extends State<DropdownButtonGroup> {
         },
       ).toList(),
       onChanged: (Map<String, dynamic>? newValue) {
-        setState(() {
-          widget.dropdownValue = newValue!;
-          widget.onChanged(newValue);
-          log(newValue["name"]);
-        });
+        widget.dropdownValue = newValue!;
+        widget.onChanged(newValue);
+        log(newValue["name"]);
       },
     );
   }

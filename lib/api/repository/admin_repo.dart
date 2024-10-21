@@ -102,6 +102,28 @@ class AdminRepo {
     }
   }
 
+  //get all user for create room
+  Future<List<User>> getAllUserForCreateRoom() async {
+    log("dang thuc hien lay user for create room");
+    List<User> users = [];
+    String token = await SecurityStorage.getToken();
+    try {
+      Response response = await api.sendRequest.get(
+        "/admin/getAllForSave",
+        options: Options(headers: header(token)),
+      );
+      var data = response.data['result'];
+      // log(jsonEncode(data));
+      if (data is List) {
+        users = data.map((e) => User.fromJson(e)).toList();
+      }
+      return users;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
   //get all user for edit room
   Future<List<User>> getAllUserForEditRoom() async {
     log("dang thuc hien lay user for edit room");
@@ -109,7 +131,7 @@ class AdminRepo {
     String token = await SecurityStorage.getToken();
     try {
       Response response = await api.sendRequest.get(
-        "/admin/getAllForSave",
+        "/admin/getAllForEditRoom",
         options: Options(headers: header(token)),
       );
       var data = response.data['result'];

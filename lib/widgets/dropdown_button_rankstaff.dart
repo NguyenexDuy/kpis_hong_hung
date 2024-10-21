@@ -58,11 +58,9 @@ class _DropdownButtonRankStaffState extends State<DropdownButtonRankStaff> {
       }).toList(),
       value: widget.dropdownValue,
       onChanged: (RankStaff? newValue) {
-        setState(() {
-          widget.dropdownValue = newValue!;
-          widget.onChanged(newValue);
-          log(newValue.rank_name);
-        });
+        widget.dropdownValue = newValue!;
+        widget.onChanged(newValue);
+        log(newValue.rank_name);
       },
     );
   }

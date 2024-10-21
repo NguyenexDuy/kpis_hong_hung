@@ -18,7 +18,7 @@ class EidtRoomPage extends StatefulWidget {
 
 class _EidtRoomPageState extends State<EidtRoomPage> {
   Future<List<User>>? futureMethod;
-  User? users;
+
   User? selectionUser;
 
   TextEditingController roomNameController = TextEditingController();
@@ -27,18 +27,18 @@ class _EidtRoomPageState extends State<EidtRoomPage> {
   @override
   void initState() {
     super.initState();
-    futureMethod = AdminRepo().getAllUserForEditRoom();
+    // futureMethod = widget.edit
+    //     ? AdminRepo().getAllUserForEditRoom()
+    //     : AdminRepo().getAllUserForCreateRoom();
+
+    widget.edit
+        ? futureMethod = AdminRepo().getAllUserForEditRoom()
+        : futureMethod = AdminRepo().getAllUserForCreateRoom();
 
     if (widget.edit && widget.roomType != null) {
       roomNameController.text = widget.roomType!.room_name;
       roomSymbolController.text = widget.roomType!.room_symbol;
-      getUser();
     }
-  }
-
-  getUser() async {
-    users =
-        await AdminRepo().getUserByUniqueUser(widget.roomType!.unique_username);
   }
 
   @override
@@ -57,13 +57,13 @@ class _EidtRoomPageState extends State<EidtRoomPage> {
             } else if (snapshot.hasError) {
               return const Center(child: Text("Có lỗi xảy ra"));
             }
-            log("edit:${widget.edit}");
-            log("roomtype:${widget.roomType!.unique_username}");
             var mylist = snapshot.data;
-            User userInitial = mylist!.first;
-            selectionUser = userInitial;
-            bool editting = widget.edit;
-
+            // User userInitial = mylist!.first;
+            User userSelected = widget.edit
+                ? mylist!.firstWhere(
+                    (user) => user.fullname == widget.roomType!.unique_username)
+                : mylist!.first;
+            selectionUser = userSelected;
             return Column(
               children: [
                 TextFormField(
@@ -79,20 +79,12 @@ class _EidtRoomPageState extends State<EidtRoomPage> {
                   dropdownValue: selectionUser!,
                   title: "Cấp nhân sự",
                   onChanged: (p0) {
-                    setState(() {
-                      selectionUser = p0;
-                    });
+                    selectionUser = p0;
                   },
                 ),
                 ElevatedButton(
                     onPressed: () async {
-                      String roomName = roomNameController.text;
-                      String roomSymbol = roomSymbolController.text;
-                      String uniqueUsername = selectionUser!.username;
-                      User? user = await SecurityStorage.getUser();
-                      String createdBy = user.fullname;
-                      bool result = await AdminRepo().addNewRoom(
-                          roomName, roomSymbol, uniqueUsername, createdBy);
+                      widget.edit ? editCurrentRoom() : addNewRoom();
                     },
                     style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
@@ -106,5 +98,26 @@ class _EidtRoomPageState extends State<EidtRoomPage> {
             );
           }),
     );
+  }
+
+  void editCurrentRoom() async {
+    String roomID = widget.roomType!.room_id.toString();
+    String roomName = roomNameController.text;
+    String roomSymbol = roomSymbolController.text;
+    String uniqueUsername = selectionUser!.username;
+    log(uniqueUsername);
+    bool result = await AdminRepo()
+        .editCurrentRoom(roomID, roomName, roomSymbol, uniqueUsername);
+    Navigator.pop(context);
+  }
+
+  void addNewRoom() async {
+    String roomName = roomNameController.text;
+    String roomSymbol = roomSymbolController.text;
+    String uniqueUsername = selectionUser!.username;
+    User? user = await SecurityStorage.getUser();
+    String createdBy = user.fullname;
+    bool result = await AdminRepo()
+        .addNewRoom(roomName, roomSymbol, uniqueUsername, createdBy);
   }
 }

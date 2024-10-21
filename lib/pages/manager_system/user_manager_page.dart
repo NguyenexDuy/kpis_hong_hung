@@ -15,6 +15,7 @@ class UserManagerPage extends StatefulWidget {
 class _UserManagerPageState extends State<UserManagerPage> {
   TextEditingController searchController = TextEditingController();
   List<User>? filteredUsers;
+  bool edit = true;
   @override
   void initState() {
     super.initState();
@@ -187,7 +188,8 @@ class _UserManagerPageState extends State<UserManagerPage> {
                           ),
                         ),
                       ],
-                      source: UserDataTableSource(userProvider.users),
+                      source: UserDataTableSource(
+                          userProvider.users, edit, context),
                       rowsPerPage: 50,
                       showFirstLastButtons: true,
                     ),
@@ -196,10 +198,13 @@ class _UserManagerPageState extends State<UserManagerPage> {
               ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
+            edit = false;
             final result = await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const EditUserPage(),
+                builder: (context) => EditUserPage(
+                  edit: edit,
+                ),
               ),
             );
 

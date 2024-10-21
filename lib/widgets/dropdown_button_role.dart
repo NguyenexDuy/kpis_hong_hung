@@ -55,11 +55,9 @@ class _DropdownButtonRoleState extends State<DropdownButtonRole> {
       }).toList(),
       value: widget.dropdownValue,
       onChanged: (Role? newValue) {
-        setState(() {
-          widget.dropdownValue = newValue!;
-          widget.onChanged(newValue);
-          log(newValue.roleName);
-        });
+        widget.dropdownValue = newValue!;
+        widget.onChanged(newValue);
+        log(newValue.roleName);
       },
     );
   }
