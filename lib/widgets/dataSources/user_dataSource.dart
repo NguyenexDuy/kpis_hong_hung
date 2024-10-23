@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:hong_hung_application/api/repository/admin_repo.dart';
 import 'package:hong_hung_application/models/models/user.dart';
 import 'package:hong_hung_application/pages/manager_system/edit_user_page.dart';
 
@@ -27,7 +30,14 @@ class UserDataTableSource extends DataTableSource {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => EditUserPage(edit: edit),
+                builder: (context) => EditUserPage(
+                  edit: edit,
+                  user: user,
+                  rankStaff: user.rankCode,
+                  role: user.role[0],
+                  roomType: user.roomType,
+                  group: user.groupWork,
+                ),
               ));
         },
         icon: const Icon(
@@ -36,7 +46,30 @@ class UserDataTableSource extends DataTableSource {
         ),
       )),
       DataCell(IconButton(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text("Reset Password"),
+              content:
+                  const Text("Bạn có chắc chắn muốn reset password không?"),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Hủy")),
+                TextButton(
+                    onPressed: () async {
+                      bool result = await AdminRepo().resetPassword(user.id);
+                      log("ket qua reset: $result");
+                      Navigator.pop(context);
+                    },
+                    child: const Text("OK"))
+              ],
+            ),
+          );
+        },
         icon: const Icon(
           Icons.restore,
           color: Colors.red,

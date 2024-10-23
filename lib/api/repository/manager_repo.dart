@@ -10,7 +10,6 @@ import 'package:hong_hung_application/models/result/rs_manager_as_member.dart';
 import 'package:hong_hung_application/models/result/rs_member_as_manager.dart';
 import 'package:hong_hung_application/models/result/rs_member_assess.dart';
 import 'package:hong_hung_application/models/result/rs_selt_assessment_dyary.dart';
-import 'package:hong_hung_application/pages/kpi_person/manager/self_assessment_manager_page.dart';
 import 'package:hong_hung_application/storage/security_storage.dart';
 
 class ManagerRepo {
@@ -253,6 +252,7 @@ class ManagerRepo {
   Future<bool> saveSelfAssessManager(SelfAsManager params) async {
     log("Dang thuc hien tu danh gia ban than (manager)");
     String token = await SecurityStorage.getToken();
+
     try {
       Response response = await api.sendRequest.post(
           "/manager/saveSelfAssessManager",
@@ -265,6 +265,27 @@ class ManagerRepo {
         log("danh gia that bai: ${response.data['result']}");
         return false;
       }
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  Future<List<ManagerAsMember>> groupAssessment(int month, int year) async {
+    log("Dang thuc hien Điều dưỡng/KTY/Hộ sinh trưởng khoa đánh giá các nhân viên không có trưởng nhóm");
+    String token = await SecurityStorage.getToken();
+    List<ManagerAsMember> mlist = [];
+    try {
+      Response response = await api.sendRequest.get("/manager/groupAssessment",
+          options: Options(headers: header(token)),
+          queryParameters: {"month": month, "year": year});
+      var data = response.data['result']['managerAssessMemberList'];
+      if (data is List) {
+        mlist = data.map((e) => ManagerAsMember.fromJson(e)).toList();
+      }
+
+      // log("lum data: ${jsonEncode(data)}");
+      return mlist;
     } catch (ex) {
       log(ex.toString());
       rethrow;

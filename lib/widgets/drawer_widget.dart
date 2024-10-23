@@ -14,6 +14,7 @@ import 'package:hong_hung_application/pages/kpi_group/add_kpi_room_page.dart';
 import 'package:hong_hung_application/pages/kpi_group/enter_kpi_page.dart';
 import 'package:hong_hung_application/pages/kpi_group/result_kpi_page.dart';
 import 'package:hong_hung_application/pages/kpi_group/see_kpi_room_page.dart';
+import 'package:hong_hung_application/pages/kpi_person/comming_soon_page.dart';
 import 'package:hong_hung_application/pages/kpi_person/manager/evaluate_ddt_ktyt_hst_page.dart';
 import 'package:hong_hung_application/pages/kpi_person/manager/evaluate_direct_management_leadership_page.dart';
 import 'package:hong_hung_application/pages/kpi_person/manager/manager_as_bs_NVVP_page.dart';
@@ -23,6 +24,9 @@ import 'package:hong_hung_application/pages/kpi_person/member_as_manager_page.da
 import 'package:hong_hung_application/pages/kpi_person/result_self_assessment.dart';
 import 'package:hong_hung_application/pages/kpi_person/self_assessment.dart';
 import 'package:hong_hung_application/pages/kpi_person/staff_evaluate_each_other.dart';
+import 'package:hong_hung_application/pages/kpi_person/the_Head_Nurse/Nurse/Midwife_evaluates_the_staff_without_a_team_leader_page.dart';
+import 'package:hong_hung_application/pages/kpi_person/the_head_of_the_nursing_medical_midwifery_department_evaluates_superiors_page.dart';
+import 'package:hong_hung_application/pages/kpi_person/theheadnurse_medical%20staff_midwife_evaluate_group_leaders_page.dart';
 import 'package:hong_hung_application/pages/log_in_page.dart';
 import 'package:hong_hung_application/pages/manager_system/room_manager_page.dart';
 import 'package:hong_hung_application/pages/manager_system/staff_manager_page.dart';
@@ -295,38 +299,84 @@ class DrawerWidget extends StatelessWidget {
                           },
                         )
                       : const SizedBox(),
-                  role == "Admin"
-                      ? const ListTile(
-                          title: Text(
+                  role == "Admin" || role == "Captain"
+                      ? ListTile(
+                          title: const Text(
                               'Điều dưỡng/KTY/Hộ sinh trưởng khoa đánh giá các nhóm trưởng(nếu có)'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const TheheadnurseMedicalstaffMidwifeEvaluateGroupLeadersPage(),
+                                ));
+                          },
                         )
                       : const SizedBox(),
-                  role == "Admin"
-                      ? const ListTile(
-                          title: Text(
+                  role == "Admin" || role == "Captain"
+                      ? ListTile(
+                          title: const Text(
                               'Điều dưỡng/KTY/Hộ sinh trưởng khoa đánh giá các nhân viên không có trưởng nhóm'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const MidwifeEvaluatesTheStaffWithoutATeamLeaderPage(),
+                                ));
+                          },
                         )
                       : const SizedBox(),
-                  role == "Admin"
-                      ? const ListTile(
-                          title: Text(
+                  role == "Admin" || role == "Captain"
+                      ? ListTile(
+                          title: const Text(
                               'Điều dưỡng/KTY/Hộ sinh trưởng khoa đánh giá cấp trên'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const TheHeadOfTheNursingMedicalMidwiferyDepartmentEvaluatesSuperiorsPage(),
+                                ));
+                          },
                         )
                       : const SizedBox(),
-                  role == "Admin"
-                      ? const ListTile(
-                          title: Text(
+                  role == "Admin" || role == "Captain"
+                      ? ListTile(
+                          title: const Text(
                               'Điều dưỡng/KTY/Hộ sinh trưởng khoa đánh giá các thành viên'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const CommingSoonPage(),
+                                ));
+                          },
                         )
                       : const SizedBox(),
                   role == "Admin"
-                      ? const ListTile(
-                          title: Text('Trưởng nhóm đánh giá các thành viên'),
+                      ? ListTile(
+                          title:
+                              const Text('Trưởng nhóm đánh giá các thành viên'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const CommingSoonPage(),
+                                ));
+                          },
                         )
                       : const SizedBox(),
-                  role == "Admin"
-                      ? const ListTile(
-                          title: Text('Trưởng nhóm đánh giá cấp trên'),
+                  role == "Admin" || role == "Captain"
+                      ? ListTile(
+                          title: const Text('Trưởng nhóm đánh giá cấp trên'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const CommingSoonPage(),
+                                ));
+                          },
                         )
                       : const SizedBox(),
                   role == "User" || role == "Admin"
@@ -383,14 +433,30 @@ class DrawerWidget extends StatelessWidget {
                       : const SizedBox(),
 
                   role == "Admin"
-                      ? const ListTile(
-                          title: Text(
-                              'Giám đốc đánh giá các lãnh đạo phụ trách Khoa/Phòng'))
+                      ? ListTile(
+                          title: const Text(
+                              'Giám đốc đánh giá các lãnh đạo phụ trách Khoa/Phòng'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const CommingSoonPage(),
+                                ));
+                          },
+                        )
                       : const SizedBox(),
                   role == "Admin"
-                      ? const ListTile(
-                          title: Text(
-                              'Ban giám đốc đánh giá các cấp quản lý Khoa/Phòng'))
+                      ? ListTile(
+                          title: const Text(
+                              'Ban giám đốc đánh giá các cấp quản lý Khoa/Phòng'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const CommingSoonPage(),
+                                ));
+                          },
+                        )
                       : const SizedBox(),
                 ],
               ),

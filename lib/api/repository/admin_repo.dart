@@ -314,7 +314,6 @@ class AdminRepo {
       int rank_code_ID,
       String group_work,
       int role_id,
-      int role_name_ID,
       int room_type_ID,
       bool status) async {
     log("dang thuc hien edit user");
@@ -325,7 +324,6 @@ class AdminRepo {
       "rank_code_ID": rank_code_ID,
       "group_work": group_work,
       "role_id": role_id,
-      "role_name_ID": role_name_ID,
       "room_type_ID": room_type_ID,
       "status": status,
     };
@@ -341,6 +339,24 @@ class AdminRepo {
       } else {
         return "FAILED";
       }
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  //reset password
+  Future<bool> resetPassword(int idUser) async {
+    log("dang thuc hien reset pass");
+    String token = await SecurityStorage.getToken();
+    try {
+      Response response = await api.sendRequest.get(
+          "/admin/resetPassword/$idUser",
+          options: Options(headers: header(token)));
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
     } catch (ex) {
       log(ex.toString());
       rethrow;

@@ -40,6 +40,7 @@ class _DropdownButtonGroupState extends State<DropdownButtonGroup> {
           ),
           labelText: widget.title,
           labelStyle: TextStyle(color: Colors.grey[400])),
+      //danh sach cac item
       items: widget.myList.map<DropdownMenuItem<Map<String, dynamic>>>(
         (Map<String, dynamic> value) {
           return DropdownMenuItem<Map<String, dynamic>>(
@@ -48,6 +49,8 @@ class _DropdownButtonGroupState extends State<DropdownButtonGroup> {
           );
         },
       ).toList(),
+      // tem item hien thi dau tien
+      value: widget.dropdownValue,
       onChanged: (Map<String, dynamic>? newValue) {
         widget.dropdownValue = newValue!;
         widget.onChanged(newValue);

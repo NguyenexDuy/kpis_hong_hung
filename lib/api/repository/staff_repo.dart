@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:hong_hung_application/api/api.dart';
 import 'package:hong_hung_application/const.dart';
+import 'package:hong_hung_application/models/models/member_assessment.dart';
 import 'package:hong_hung_application/models/models/staff_list.dart';
 import 'package:hong_hung_application/models/models/user.dart';
 import 'package:hong_hung_application/models/result/rs_manager_as_yourself.dart';
@@ -70,6 +71,29 @@ class StaffRepo {
       // log(jsonEncode(data));
       StaffList staffList = StaffList.fromJson(data);
       return staffList;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  Future<List<MemberAssessment>> memberAssessmentManager(
+      int month, int year) async {
+    log("Điều dưỡng/KTY/Hộ sinh trưởng khoa đánh giá cấp trên");
+    String token = await SecurityStorage.getToken();
+    List<MemberAssessment> rsList = [];
+    try {
+      Response response = await api.sendRequest.get(
+          "/staff/memberAssessmentManager",
+          options: Options(headers: header(token)),
+          queryParameters: {"month": month, "year": year});
+      var data = response.data['result']['membersAssessList'];
+      if (data is List) {
+        rsList = data.map((e) => MemberAssessment.fromJson(e)).toList();
+      }
+
+      // log("Lum: ${jsonEncode(data)}");
+      return rsList;
     } catch (ex) {
       log(ex.toString());
       rethrow;
