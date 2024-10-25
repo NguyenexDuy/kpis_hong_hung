@@ -253,7 +253,7 @@ class AdminRepo {
       "unique_username": unique_username
     };
     try {
-      Response response = await api.sendRequest.post(
+      Response response = await api.sendRequest.put(
           "/admin/saveEditRoom/$idRoom",
           options: Options(headers: header(token)),
           data: body);
@@ -329,7 +329,7 @@ class AdminRepo {
     };
     try {
       Response response =
-          await api.sendRequest.post("/admin/saveEditUser/$idUser",
+          await api.sendRequest.put("/admin/saveEditUser/$idUser",
               data: body,
               options: Options(
                 headers: header(token),

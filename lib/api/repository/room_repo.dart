@@ -139,4 +139,103 @@ class RoomRepo {
       rethrow;
     }
   }
+
+  //update kpiroomdata
+  Future<bool> saveUpdateKpiRoomData(
+      int idRoomData,
+      double msChung,
+      double chiTieu,
+      double diemHieuChinh,
+      double tsThucHien,
+      String currency) async {
+    log("dang thuc hien update kpi room data");
+    String token = await SecurityStorage.getToken();
+    Map<String, dynamic> body = {
+      "ms_chung": msChung,
+      "chi_tieu": chiTieu,
+      "diem_hieu_chinh": diemHieuChinh,
+      "ts_thuc_hien": tsThucHien,
+      "currency": currency
+    };
+    try {
+      Response response = await api.sendRequest.put(
+          "/room/saveUpdateKpiRoomData/$idRoomData",
+          options: Options(headers: header(token)),
+          data: body);
+      if (response.data['code'] == 1000) {
+        return true;
+      } else if (response.data['code'] == 1100) {
+        return false;
+      } else {
+        return false;
+      }
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  //delete kpiroomdata
+  Future<bool> deleteKpiRoomData(int idRoomData) async {
+    log("dang thuc hien delete kpi room data");
+    String token = await SecurityStorage.getToken();
+    try {
+      Response response = await api.sendRequest.delete(
+          "/room/deleteKpiRoomData/$idRoomData",
+          options: Options(headers: header(token)));
+      if (response.data['code'] == 1000) {
+        return true;
+      }
+      return false;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  //update kpi name
+  Future<bool> saveUpdateKpiName(
+      int idNameKpi, String kpiType, String note, String compareType) async {
+    log("dang thuc hien update kpi room data");
+    String token = await SecurityStorage.getToken();
+    Map<String, dynamic> body = {
+      "kpi_type": kpiType,
+      "note": note,
+      "compare_type": compareType
+    };
+    try {
+      Response response = await api.sendRequest.put(
+          "/room/saveUpdateKpiName/$idNameKpi",
+          options: Options(headers: header(token)),
+          data: body);
+      if (response.data['code'] == 1000) {
+        return true;
+      } else if (response.data['code'] == 1100) {
+        return false;
+      } else {
+        return false;
+      }
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  //delete kpi name
+  Future<bool> deleteKpiName(int idRoomData) async {
+    log("dang thuc hien delete kpi name");
+    String token = await SecurityStorage.getToken();
+    try {
+      Response response = await api.sendRequest.delete(
+          "/room/deleteKpiName/$idRoomData",
+          options: Options(headers: header(token)));
+      if (response.data['code'] == 1000) {
+        return true;
+      }
+      return false;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
 }

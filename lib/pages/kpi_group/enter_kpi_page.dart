@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hong_hung_application/api/repository/room_repo.dart';
 import 'package:hong_hung_application/models/models/kpi_room_data.dart';
+import 'package:hong_hung_application/pages/kpi_person/nhaplieu_kpi_khoa_phong_page.dart';
 import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
@@ -177,7 +178,7 @@ class _EnterKpiState extends State<EnterKpi> {
                               ),
                             ],
                             source: NameKPIDataTableSource(
-                                listKPI), // Nguồn dữ liệu
+                                listKPI, context), // Nguồn dữ liệu
                             rowsPerPage: 20, // Số hàng mỗi trang
                             showFirstLastButtons: true,
                           ),
@@ -195,8 +196,9 @@ class _EnterKpiState extends State<EnterKpi> {
 // DataTableSource để cung cấp dữ liệu cho PaginatedDataTable
 class NameKPIDataTableSource extends DataTableSource {
   final List<KpiRoomData> nameListKPI;
+  final BuildContext context;
 
-  NameKPIDataTableSource(this.nameListKPI);
+  NameKPIDataTableSource(this.nameListKPI, this.context);
 
   @override
   DataRow? getRow(int index) {
@@ -214,8 +216,17 @@ class NameKPIDataTableSource extends DataTableSource {
       DataCell(Text(kpiItem.roomReport!)),
       DataCell(Text(kpiItem.roomResponsibleSymbol)),
       DataCell(IconButton(
-        icon: const Icon(Icons.abc),
-        onPressed: () {},
+        icon: Icon(
+          Icons.edit_note_sharp,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NhaplieuKpiKhoaPhongPage(),
+              ));
+        },
       )),
     ]);
   }

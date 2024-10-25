@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hong_hung_application/api/repository/room_repo.dart';
 import 'package:hong_hung_application/models/models/name_list_kpi.dart';
+import 'package:hong_hung_application/pages/kpi_group/edit_kpi_room_page.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
 class SeeKpiRoomPage extends StatefulWidget {
@@ -109,7 +110,8 @@ class _SeeKpiRoomPageState extends State<SeeKpiRoomPage> {
                       ),
                     ),
                   ],
-                  source: NameKPIDataTableSource(listKPI), // Nguồn dữ liệu
+                  source:
+                      NameKPIDataTableSource(listKPI, context), // Nguồn dữ liệu
                   rowsPerPage: 20, // Số hàng mỗi trang
                   showFirstLastButtons: true,
                 ),
@@ -125,8 +127,9 @@ class _SeeKpiRoomPageState extends State<SeeKpiRoomPage> {
 // DataTableSource để cung cấp dữ liệu cho PaginatedDataTable
 class NameKPIDataTableSource extends DataTableSource {
   final List<NameListKpi> nameListKPI;
+  final BuildContext context;
 
-  NameKPIDataTableSource(this.nameListKPI);
+  NameKPIDataTableSource(this.nameListKPI, this.context);
 
   @override
   DataRow? getRow(int index) {
@@ -144,10 +147,26 @@ class NameKPIDataTableSource extends DataTableSource {
       DataCell(Text(kpiItem.note.toString())),
       DataCell(Row(
         children: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.edit_note_sharp)),
           IconButton(
-              onPressed: () {}, icon: const Icon(Icons.check_circle_outline)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.delete_outline)),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditKpiRoomPage(
+                        nameListKpi: kpiItem,
+                      ),
+                    ));
+              },
+              icon: Icon(
+                Icons.edit_note_sharp,
+                color: Theme.of(context).colorScheme.primary,
+              )),
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.close,
+                color: Colors.red,
+              )),
         ],
       )),
     ]);

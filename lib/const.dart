@@ -97,6 +97,9 @@ const List<String> listChatLuong = [
   "10-Rất xuất sắc",
 ];
 
+const List<String> compareList = ["Tháng", "Quý", "Năm"];
+const List<String> compareTypeList = ["Less", "More"];
+
 const List<String> listHocTapvaPhatTrien = [
   "0-Không có bằng chứng hoạt động học tập, đào tạo nào",
   "6-Nhóm C: Có tham dự các lớp đào tạo, huấn luyện, diễn tập",
