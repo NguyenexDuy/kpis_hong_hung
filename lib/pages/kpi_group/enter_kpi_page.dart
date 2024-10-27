@@ -224,7 +224,9 @@ class NameKPIDataTableSource extends DataTableSource {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => NhaplieuKpiKhoaPhongPage(),
+                builder: (context) => NhaplieuKpiKhoaPhongPage(
+                  kpiRoomData: kpiItem,
+                ),
               ));
         },
       )),

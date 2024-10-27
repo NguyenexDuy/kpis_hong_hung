@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:hong_hung_application/api/api.dart';
@@ -265,6 +264,29 @@ class ManagerRepo {
         log("danh gia that bai: ${response.data['result']}");
         return false;
       }
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+//trưởng/phó khoa, trưởng khoa đánh giá BS/NVVp
+  Future<List<ManagerAsMember>> managerAssessment(int month, int year) async {
+    log("Dang thuc hien Điều dưỡng/KTY/Hộ sinh trưởng khoa đánh giá các nhân viên không có trưởng nhóm");
+    String token = await SecurityStorage.getToken();
+    List<ManagerAsMember> mlist = [];
+    try {
+      Response response = await api.sendRequest.get(
+          "/manager/managerAssessment",
+          options: Options(headers: header(token)),
+          queryParameters: {"month": month, "year": year});
+      var data = response.data['result']['managerAssessMemberList'];
+      if (data is List) {
+        mlist = data.map((e) => ManagerAsMember.fromJson(e)).toList();
+      }
+
+      // log("lum data: ${jsonEncode(data)}");
+      return mlist;
     } catch (ex) {
       log(ex.toString());
       rethrow;

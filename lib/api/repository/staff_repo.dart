@@ -215,6 +215,30 @@ class StaffRepo {
     }
   }
 
+  //Các thành viên đánh giá lẫn nhau
+  Future<List<MemberAssessment>> memberAssessment(int month, int year) async {
+    log("dang thuc hien lay ket qua cac thanh vien danh gia lan nhaunn");
+    String token = await SecurityStorage.getToken();
+    List<MemberAssessment> mlist = [];
+    try {
+      Response response = await api.sendRequest.get("/staff/memberAssessment",
+          options: Options(headers: header(token)),
+          queryParameters: {
+            'month': month,
+            'year': year,
+          });
+      var data = response.data['result']['membersAssessList'];
+      print("day la body:$data");
+      if (data is List) {
+        mlist = data.map((e) => MemberAssessment.fromJson(e)).toList();
+      }
+      return mlist;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
 //kết quả đánh giá cấp nhân viên
   Future<List<RsMemberAssess>> getMemberAssess(int month, int year) async {
     log("dang thuc hien lay ket qua danh gia cap nhan vien");
@@ -263,5 +287,4 @@ class StaffRepo {
   }
 
   //Đánh giá các cấp trên
-  //Các thành viên đánh giá lẫn nhau
 }

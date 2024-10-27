@@ -50,6 +50,7 @@ List<Map<String, dynamic>> clthCMandMdphthdcmcKhoaPhong = [
   {"id": "0", "result": "0- Rất kém"},
 ];
 
+List<String> dinhDang = ["percent", "number"];
 List<Map<String, dynamic>> muc_do_hoc_tap = [
   {
     "id": "10",

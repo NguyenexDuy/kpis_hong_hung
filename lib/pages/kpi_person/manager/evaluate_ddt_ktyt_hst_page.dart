@@ -124,7 +124,8 @@ class _EvaluateDdtKtytHstPageState extends State<EvaluateDdtKtytHstPage> {
                             ),
                           ),
                         ],
-                        source: ManagerAsMemberDataTableSource(managerAsMember),
+                        source: ManagerAsMemberDataTableSource(
+                            managerAsMember, context),
                       );
                     },
                   )
@@ -138,8 +139,9 @@ class _EvaluateDdtKtytHstPageState extends State<EvaluateDdtKtytHstPage> {
 // DataTableSource để cung cấp dữ liệu cho PaginatedDataTable
 class ManagerAsMemberDataTableSource extends DataTableSource {
   final List<ManagerAsMember> managerAsMemberList;
+  final BuildContext context;
 
-  ManagerAsMemberDataTableSource(this.managerAsMemberList);
+  ManagerAsMemberDataTableSource(this.managerAsMemberList, this.context);
 
   @override
   DataRow? getRow(int index) {
