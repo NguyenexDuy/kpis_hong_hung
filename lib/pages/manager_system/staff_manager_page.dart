@@ -12,12 +12,18 @@ class StaffManagerPage extends StatefulWidget {
 
 class _StaffManagerPageState extends State<StaffManagerPage> {
   Future<List<StaffList>>? futureMethod;
+  List<StaffList>? filteredUsers;
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     final provider = Provider.of<StaffProvider>(context, listen: false);
-    provider.fetchStaffList();
+    provider.fetchStaffList().then((_) {
+      setState(() {
+        filteredUsers = provider.staffs;
+      });
+    });
   }
 
   @override
@@ -31,14 +37,56 @@ class _StaffManagerPageState extends State<StaffManagerPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ElevatedButton(
-                onPressed: () {}, child: const Text("Xuất file Excel")),
             staffProvider.isLoading
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : SingleChildScrollView(
                     child: PaginatedDataTable(
+                      header: TextField(
+                        decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: BorderSide(
+                                color: Colors.grey[
+                                    400]!, // Màu viền khi ô không nhận focus
+                                width: 2.0,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: BorderSide(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .primary, // Màu viền khi ô nhận focus
+                                width: 2.0,
+                              ),
+                            ),
+                            prefixIcon: const Icon(Icons.search),
+                            hintText: "Tìm kiếm",
+                            hintStyle: const TextStyle(color: Colors.grey)),
+                        controller: searchController,
+                        onChanged: (value) {
+                          setState(() {
+                            if (value.isEmpty) {
+                              staffProvider.staffs = filteredUsers!;
+                            } else {
+                              staffProvider.staffs = filteredUsers!
+                                  .where((staff) =>
+                                      staff.staffCode
+                                          .toLowerCase()
+                                          .contains(value.toLowerCase()) ||
+                                      staff.fullname
+                                          .toLowerCase()
+                                          .contains(value.toLowerCase()) ||
+                                      staff.roomName
+                                          .toLowerCase()
+                                          .contains(value.toLowerCase()))
+                                  .toList();
+                            }
+                          });
+                        },
+                      ),
                       columns: const <DataColumn>[
                         DataColumn(
                           label: Expanded(

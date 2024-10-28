@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hong_hung_application/api/repository/admin_repo.dart';
 import 'package:hong_hung_application/models/models/room_type.dart';
@@ -13,7 +15,10 @@ class RoomManagerPage extends StatefulWidget {
 
 class _RoomManagerPageState extends State<RoomManagerPage> {
   Future<List<RoomType>>? futureMethod;
+  List<RoomType>? filteredRoomTypeList;
   bool edit = true;
+  TextEditingController searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -30,8 +35,6 @@ class _RoomManagerPageState extends State<RoomManagerPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ElevatedButton(
-                onPressed: () {}, child: const Text("Xuất file Excel")),
             FutureBuilder(
               future: futureMethod,
               builder: (context, snapshot) {
@@ -40,9 +43,48 @@ class _RoomManagerPageState extends State<RoomManagerPage> {
                 } else if (snapshot.hasError) {
                   return const Center(child: Text("Có lỗi xảy ra"));
                 }
+
                 List<RoomType> roomtypeList = snapshot.data!;
+                filteredRoomTypeList = filteredRoomTypeList ?? roomtypeList;
                 return SingleChildScrollView(
                   child: PaginatedDataTable(
+                    header: TextField(
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide(
+                              color: Colors.grey[
+                                  400]!, // Màu viền khi ô không nhận focus
+                              width: 2.0,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary, // Màu viền khi ô nhận focus
+                              width: 2.0,
+                            ),
+                          ),
+                          prefixIcon: const Icon(Icons.search),
+                          hintText: "Tìm kiếm",
+                          hintStyle: const TextStyle(color: Colors.grey)),
+                      controller: searchController,
+                      onChanged: (value) {
+                        setState(() {
+                          if (value.isNotEmpty) {
+                            filteredRoomTypeList = roomtypeList
+                                .where((room) => room.room_name
+                                    .toLowerCase()
+                                    .contains(value.toLowerCase()))
+                                .toList();
+                          } else {
+                            filteredRoomTypeList = roomtypeList;
+                          }
+                        });
+                      },
+                    ),
                     columns: const <DataColumn>[
                       DataColumn(
                         label: Expanded(
@@ -101,8 +143,8 @@ class _RoomManagerPageState extends State<RoomManagerPage> {
                         ),
                       ),
                     ],
-                    source:
-                        RoomTypeDataTableSource(roomtypeList, context, edit),
+                    source: RoomTypeDataTableSource(
+                        filteredRoomTypeList!, context, edit),
                   ),
                 );
               },

@@ -7,6 +7,7 @@ import 'package:hong_hung_application/models/models/staff_list.dart';
 class StaffProvider extends ChangeNotifier {
   List<StaffList>? _staffs;
   bool _isLoading = true;
+
   List<StaffList> get staffs => _staffs!;
   bool get isLoading => _isLoading;
 
@@ -17,6 +18,11 @@ class StaffProvider extends ChangeNotifier {
       log(ex.toString());
     }
     _isLoading = false;
+    notifyListeners();
+  }
+
+  set staffs(List<StaffList> staff) {
+    _staffs = staff;
     notifyListeners();
   }
 }
