@@ -34,7 +34,7 @@ class _EditKpiRoomPageState extends State<EditKpiRoomPage> {
         title: const Text("Chỉnh sửa KPI room"),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextFormField(
@@ -51,6 +51,9 @@ class _EditKpiRoomPageState extends State<EditKpiRoomPage> {
                   labelText: "Phòng báo cáo",
                   labelStyle: TextStyle(color: Colors.grey[400])),
             ),
+            const SizedBox(
+              height: 15,
+            ),
             TextFormField(
               controller: phongChiuTrachNhiem,
               decoration: InputDecoration(
@@ -64,6 +67,9 @@ class _EditKpiRoomPageState extends State<EditKpiRoomPage> {
                   enabled: false,
                   labelText: "Phòng chịu trách nhiệm",
                   labelStyle: TextStyle(color: Colors.grey[400])),
+            ),
+            const SizedBox(
+              height: 15,
             ),
             TextFormField(
               controller: chiSoKpiBaoCao,
@@ -79,6 +85,9 @@ class _EditKpiRoomPageState extends State<EditKpiRoomPage> {
                   labelText: "Chỉ số KPI để báo cáo",
                   labelStyle: TextStyle(color: Colors.grey[400])),
             ),
+            const SizedBox(
+              height: 15,
+            ),
             DropdownButtonStyleString(
               title: "Loại KPI",
               mlist: compareList,
@@ -87,6 +96,9 @@ class _EditKpiRoomPageState extends State<EditKpiRoomPage> {
                 dropDownCompare = p0;
               },
             ),
+            const SizedBox(
+              height: 15,
+            ),
             DropdownButtonStyleString(
               title: "Kiểu so sánh",
               mlist: compareTypeList,
@@ -94,6 +106,9 @@ class _EditKpiRoomPageState extends State<EditKpiRoomPage> {
               onChanged: (p0) {
                 dropDownCompare = p0;
               },
+            ),
+            const SizedBox(
+              height: 15,
             ),
             TextFormField(
               controller: chiTieu,

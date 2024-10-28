@@ -64,37 +64,50 @@ class _EidtRoomPageState extends State<EidtRoomPage> {
                     (user) => user.fullname == widget.roomType!.unique_username)
                 : mylist!.first;
             selectionUser = userSelected;
-            return Column(
-              children: [
-                TextFormField(
-                  controller: roomNameController,
-                  decoration: const InputDecoration(hintText: "Room name"),
-                ),
-                TextFormField(
-                  controller: roomSymbolController,
-                  decoration: const InputDecoration(hintText: "Room symbol"),
-                ),
-                DropdownButtonUserforeditroom(
-                  myList: mylist,
-                  dropdownValue: selectionUser!,
-                  title: "Cấp nhân sự",
-                  onChanged: (p0) {
-                    selectionUser = p0;
-                  },
-                ),
-                ElevatedButton(
-                    onPressed: () async {
-                      widget.edit ? editCurrentRoom() : addNewRoom();
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: roomNameController,
+                    decoration: const InputDecoration(hintText: "Room name"),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  TextFormField(
+                    controller: roomSymbolController,
+                    decoration: const InputDecoration(hintText: "Room symbol"),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  DropdownButtonUserforeditroom(
+                    myList: mylist,
+                    dropdownValue: selectionUser!,
+                    title: "Cấp nhân sự",
+                    onChanged: (p0) {
+                      selectionUser = p0;
                     },
-                    style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 40, vertical: 20),
-                        backgroundColor: Theme.of(context).colorScheme.primary),
-                    child: Text(
-                      widget.edit ? "Chỉnh sửa" : "Tạo",
-                      style: const TextStyle(color: Colors.white),
-                    ))
-              ],
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        widget.edit ? editCurrentRoom() : addNewRoom();
+                      },
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 20),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary),
+                      child: Text(
+                        widget.edit ? "Chỉnh sửa" : "Tạo",
+                        style: const TextStyle(color: Colors.white),
+                      ))
+                ],
+              ),
             );
           }),
     );

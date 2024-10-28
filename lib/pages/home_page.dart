@@ -103,7 +103,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            Text(user2?.fullname ?? "No user data available")
           ],
         ),
       ),

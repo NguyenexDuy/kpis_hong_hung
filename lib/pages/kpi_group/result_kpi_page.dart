@@ -65,7 +65,7 @@ class _ResultKpiState extends State<ResultKpi> {
             _selected == null
                 ? const Center(child: Text('Bạn chưa chọn thời gian'))
                 : Text(
-                    "Kết quả đánh giá cấp nhân viên  ${DateFormat().add_yM().format(_selected!)}"),
+                    "Kết quả KPI khoa/phòng phụ trách  ${DateFormat().add_yM().format(_selected!)}"),
             futureMethod == null
                 ? Column(
                     children: [

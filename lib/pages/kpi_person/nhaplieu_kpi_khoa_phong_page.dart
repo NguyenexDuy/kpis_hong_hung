@@ -61,7 +61,7 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
         title: const Text("Nhập liệu KPI cho khoa/phòng"),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -82,6 +82,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                     labelStyle: TextStyle(color: Colors.grey[400])),
               ),
             ),
+            const SizedBox(
+              height: 15,
+            ),
             TextFormField(
               controller: phongBaocaoController,
               decoration: InputDecoration(
@@ -95,6 +98,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                   enabled: false,
                   labelText: "Phòng báo cáo",
                   labelStyle: TextStyle(color: Colors.grey[400])),
+            ),
+            const SizedBox(
+              height: 15,
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.5,
@@ -113,6 +119,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                     labelStyle: TextStyle(color: Colors.grey[400])),
               ),
             ),
+            const SizedBox(
+              height: 15,
+            ),
             TextFormField(
               controller: phongChiuTrachNhiemController,
               decoration: InputDecoration(
@@ -126,6 +135,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                   enabled: false,
                   labelText: "Phòng chịu trách nhiệm",
                   labelStyle: TextStyle(color: Colors.grey[400])),
+            ),
+            const SizedBox(
+              height: 15,
             ),
             Row(
               children: [
@@ -145,6 +157,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                         labelStyle: TextStyle(color: Colors.grey[400])),
                   ),
                 ),
+                const SizedBox(
+                  width: 5,
+                ),
                 Expanded(
                   child: TextFormField(
                     controller: yearController,
@@ -163,6 +178,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                 ),
               ],
             ),
+            const SizedBox(
+              height: 15,
+            ),
             TextFormField(
               controller: chiSoKPIBaoCaoController,
               decoration: InputDecoration(
@@ -176,6 +194,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                   enabled: false,
                   labelText: "Chỉ số KPI báo cáo",
                   labelStyle: TextStyle(color: Colors.grey[400])),
+            ),
+            const SizedBox(
+              height: 15,
             ),
             Row(
               children: [
@@ -195,6 +216,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                         labelStyle: TextStyle(color: Colors.grey[400])),
                   ),
                 ),
+                const SizedBox(
+                  width: 5,
+                ),
                 Expanded(
                   child: TextFormField(
                     controller: typeSoSanhController,
@@ -212,6 +236,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                   ),
                 ),
               ],
+            ),
+            const SizedBox(
+              height: 15,
             ),
             Row(
               children: [
@@ -231,6 +258,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                         labelStyle: TextStyle(color: Colors.grey[400])),
                   ),
                 ),
+                const SizedBox(
+                  width: 5,
+                ),
                 Expanded(
                   child: TextFormField(
                     controller: diemHieuChinhController,
@@ -247,6 +277,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                   ),
                 ),
               ],
+            ),
+            const SizedBox(
+              height: 15,
             ),
             Row(
               children: [
@@ -265,6 +298,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                         labelStyle: TextStyle(color: Colors.grey[400])),
                   ),
                 ),
+                const SizedBox(
+                  width: 5,
+                ),
                 Expanded(
                     child: DropdownButtonStyleString(
                   mlist: dinhDang,
@@ -275,6 +311,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                   },
                 )),
               ],
+            ),
+            const SizedBox(
+              height: 15,
             ),
             Row(
               children: [
@@ -293,6 +332,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                         labelStyle: TextStyle(color: Colors.grey[400])),
                   ),
                 ),
+                const SizedBox(
+                  width: 5,
+                ),
                 Expanded(
                   child: TextFormField(
                     controller: mschungController,
@@ -309,6 +351,9 @@ class _NhaplieuKpiKhoaPhongPageState extends State<NhaplieuKpiKhoaPhongPage> {
                   ),
                 ),
               ],
+            ),
+            const SizedBox(
+              height: 15,
             ),
             Center(
               child: ElevatedButton(

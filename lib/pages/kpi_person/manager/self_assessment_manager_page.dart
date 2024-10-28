@@ -193,52 +193,62 @@ class _SelfAssessmentManagerState extends State<SelfAssessmentManagerPage> {
                       controller: noteController,
                       decoration: const InputDecoration(hintText: "Ghi chú"),
                     ),
-                    ElevatedButton(
-                        onPressed: () async {
-                          String staffCode = staff.staffCode;
-                          String name = staff.fullname;
-                          String rank = staff.rank_code;
-                          String groupRank = staff.group_work;
-                          int month = dropdownValueMonth;
-                          int year = 2024;
-                          int kyluatlaodong = int.parse(valueKiLuatLD['id']);
-                          int mucdoganket = int.parse(valueMucDoGanKet['id']);
-                          int chatluongTochuc =
-                              int.parse(valueChatLuongToChuc['id']);
-                          int mucdoKiemtra = int.parse(valueMucDoKiemtra['id']);
-                          int mucdoHocTap = int.parse(valueMucDoHocTap['id']);
-                          String note = noteController.text;
-                          String roomName = staff.roomName;
-                          String roomSymbol = staff.user.roomType.room_symbol;
-                          String createdBy = staff.user.username;
-                          SelfAsManager item = SelfAsManager(
-                              staffCode: staffCode,
-                              rank: rank,
-                              month: month,
-                              year: year,
-                              kyLuatVaThuong: kyluatlaodong,
-                              ganKetTaoDongLucNv: mucdoganket,
-                              chatLuongToChucPhanCongCv: chatluongTochuc,
-                              ktraGiamSatChuyenMonNv: mucdoKiemtra,
-                              diemMucDoHocTapPt: mucdoHocTap,
-                              roomName: roomName,
-                              name: name,
-                              groupRank: groupRank,
-                              roomSymbol: roomSymbol,
-                              createdBy: createdBy,
-                              note: note);
-                          bool result =
-                              await ManagerRepo().saveSelfAssessManager(item);
-                        },
-                        style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 50),
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary),
-                        child: const Text(
-                          "Đánh giá",
-                          style: TextStyle(color: Colors.white),
-                        ))
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Center(
+                        child: ElevatedButton(
+                            onPressed: () async {
+                              String staffCode = staff.staffCode;
+                              String name = staff.fullname;
+                              String rank = staff.rank_code;
+                              String groupRank = staff.group_work;
+                              int month = dropdownValueMonth;
+                              int year = 2024;
+                              int kyluatlaodong =
+                                  int.parse(valueKiLuatLD['id']);
+                              int mucdoganket =
+                                  int.parse(valueMucDoGanKet['id']);
+                              int chatluongTochuc =
+                                  int.parse(valueChatLuongToChuc['id']);
+                              int mucdoKiemtra =
+                                  int.parse(valueMucDoKiemtra['id']);
+                              int mucdoHocTap =
+                                  int.parse(valueMucDoHocTap['id']);
+                              String note = noteController.text;
+                              String roomName = staff.roomName;
+                              String roomSymbol =
+                                  staff.user.roomType.room_symbol;
+                              String createdBy = staff.user.username;
+                              SelfAsManager item = SelfAsManager(
+                                  staffCode: staffCode,
+                                  rank: rank,
+                                  month: month,
+                                  year: year,
+                                  kyLuatVaThuong: kyluatlaodong,
+                                  ganKetTaoDongLucNv: mucdoganket,
+                                  chatLuongToChucPhanCongCv: chatluongTochuc,
+                                  ktraGiamSatChuyenMonNv: mucdoKiemtra,
+                                  diemMucDoHocTapPt: mucdoHocTap,
+                                  roomName: roomName,
+                                  name: name,
+                                  groupRank: groupRank,
+                                  roomSymbol: roomSymbol,
+                                  createdBy: createdBy,
+                                  note: note);
+                              bool result = await ManagerRepo()
+                                  .saveSelfAssessManager(item);
+                            },
+                            style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 50),
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.primary),
+                            child: const Text(
+                              "Đánh giá",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ),
+                    )
                   ],
                 ),
               ),

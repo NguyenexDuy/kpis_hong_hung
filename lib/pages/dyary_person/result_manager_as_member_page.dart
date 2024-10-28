@@ -69,7 +69,7 @@ class _ResultManagerAsMemberPageState extends State<ResultManagerAsMemberPage> {
             _selected == null
                 ? const Center(child: Text('Bạn chưa chọn thời gian'))
                 : Text(
-                    "Kết quả KPI cá nhân: ${DateFormat().add_yM().format(_selected!)}"),
+                    "Kết quả quản lý đánh giá nhân viên: ${DateFormat().add_yM().format(_selected!)}"),
             futureMethod == null
                 ? Column(
                     children: [

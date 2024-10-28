@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hong_hung_application/api/repository/manager_repo.dart';
 import 'package:hong_hung_application/models/result/rs_leader_as_manager.dart';
 import 'package:hong_hung_application/widgets/dataSources/rs_leader_as_manager_dataSource.dart';
-import 'package:hong_hung_application/widgets/dataSources/rs_opinion_staff_dataSource.dart';
 import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
@@ -68,7 +67,7 @@ class _ResultLeaderAsManagerPageState extends State<ResultLeaderAsManagerPage> {
             _selected == null
                 ? const Center(child: Text('Bạn chưa chọn thời gian'))
                 : Text(
-                    "Kết quả đánh giá cấp nhân viên  ${DateFormat().add_yM().format(_selected!)}"),
+                    "Kết quả đánh giá lãnh đạo  ${DateFormat().add_yM().format(_selected!)}"),
             futureMethod == null
                 ? Column(
                     children: [

@@ -64,7 +64,7 @@ class _ResultAssessmentManagerState extends State<ResultAssessmentManager> {
           _selected == null
               ? const Center(child: Text('Bạn chưa chọn thời gian'))
               : Text(
-                  "Kết quả đánh giá cấp nhân viên  ${DateFormat().add_yM().format(_selected!)}"),
+                  "Kết quả đánh giá cấp quản lý  ${DateFormat().add_yM().format(_selected!)}"),
           futureMemberAsManager == null
               ? Column(
                   children: [
